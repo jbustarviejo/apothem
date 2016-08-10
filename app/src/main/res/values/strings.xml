@@ -1,8 +1,18 @@
 <resources>
     <string name="app_name">Apothem</string>
 
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="navigation_drawer_open">Abrir menú</string>
+    <string name="navigation_drawer_close">Cerrar menú</string>
 
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Ajustes</string>
+
+    <!-- Generic strings -->
+    <string name="not_available">No disponible</string>
+    <string name="empty">---</string>
+    <string name="not_allowed">No permitido</string>
+    <string name="enabled">Habilitado</string>
+    <string name="disabled">Deshabilitado</string>
+    <string name="yes">Sí</string>
+    <string name="no">No</string>
+
 </resources>
