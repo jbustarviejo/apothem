@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--Telefonica colors-->
+    <color name="telefonicaColorLight">#107597</color>
+    <color name="telefonciaColorMiddle">#09576A</color>
+    <color name="telefonicaColorDark">#033738</color>
+
+</resources>
