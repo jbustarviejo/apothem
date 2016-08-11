@@ -175,7 +175,7 @@ public class DataBase {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return locationRecordsList;
     }
 
     public void storeLocationData(Context context, DeviceInfo deviceInfo){

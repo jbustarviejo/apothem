@@ -3,6 +3,10 @@
 
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/nav_main"
+            android:icon="@drawable/ic_equalizer"
+            android:title="Información general" />
+        <item
             android:id="@+id/nav_device"
             android:icon="@drawable/ic_phone"
             android:title="Terminal" />

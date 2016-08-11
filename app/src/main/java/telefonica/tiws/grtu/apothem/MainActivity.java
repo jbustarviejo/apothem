@@ -3,6 +3,8 @@ package telefonica.tiws.grtu.apothem;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlarmManager;
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -20,7 +22,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private static Activity thisActivity;
     private static DataBase dataBase;
     public final static int FINISH_LANDING = 1;
+    public static DeviceInfo deviceInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,9 +38,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
 
         dataBase = new DataBase();
+        deviceInfo = new DeviceInfo(thisActivity);
 
         DataBase.SettingsRecord settingsRecord = dataBase.getSettings(thisActivity);
-        settingsRecord.hasInitApp=false;
+        settingsRecord.hasInitApp=false; //DELETE THIS<=============
         //Start storage of data in background
         startBackgroundService();
 
@@ -49,8 +52,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                drawFragment(R.id.nav_email);
             }
         });
 
@@ -71,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }else {
            checkPermissions();
         }
+        drawFragment(R.id.nav_main);
     }
 
     private void startBackgroundService(){
@@ -121,24 +124,38 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        drawFragment(id);
+        return true;
+    }
 
-       /* if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
 
-        } else if (id == R.id.nav_slideshow) {
+    public void drawFragment(int id){
+        Fragment fragment;
 
-        } else if (id == R.id.nav_manage) {
+        if (id == R.id.nav_device) {
+            fragment = new FragmentDevice();
+        } else if (id == R.id.nav_connection) {
+            fragment = new FragmentConnection();
+        } else if (id == R.id.nav_network) {
+            fragment = new FragmentNetwork();
+        } else if (id == R.id.nav_calls) {
+            fragment = new FragmentCalls();
+        } else if (id == R.id.nav_location) {
+            fragment = new FragmentLocation();
+        } else if (id == R.id.nav_settings) {
+            fragment = new FragmentSettings();
+        } else if (id == R.id.nav_email) {
+            fragment = new FragmentEmail();
+        } else{
+            fragment = new FragmentMain();
+        }
 
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }*/
+        // Insert the fragment by replacing any existing fragment
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
-        return true;
     }
 
     /**
