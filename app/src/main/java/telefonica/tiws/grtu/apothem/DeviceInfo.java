@@ -25,6 +25,182 @@ public class DeviceInfo {
         connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
     }
 
+    /* SIM */
+    public String getSimState() {
+        int simState = telephonyManager.getSimState();
+        switch (simState) {
+            case TelephonyManager.SIM_STATE_ABSENT:
+                return "No hay SIM";
+            case TelephonyManager.SIM_STATE_NETWORK_LOCKED:
+                return "Red bloqueada";
+            case TelephonyManager.SIM_STATE_PIN_REQUIRED:
+                return "Se requiere el PIN";
+            case TelephonyManager.SIM_STATE_PUK_REQUIRED:
+                return "Se requiere el PUK";
+            case TelephonyManager.SIM_STATE_READY:
+                return "Preparada";
+            case TelephonyManager.SIM_STATE_UNKNOWN:
+                return "Desconocido";
+            case 6:
+                return "SIM no preparada";
+            case 7:
+                return "Sin permisos de acceso";
+            case 8:
+                return "Error de lectura de SIM";
+            default:
+                return "Desconocido";
+        }
+    }
+
+    public String getLineNumber() {
+        try {
+            String simNumber = telephonyManager.getLine1Number();
+            if (simNumber.isEmpty()) {
+                simNumber = context.getResources().getString(R.string.not_available);
+            }
+            return simNumber;
+        } catch (Exception e) {
+            return context.getResources().getString(R.string.not_allowed);
+        }
+    }
+
+    public String getSimSerial() {
+        try {
+            String SimSerialNumber = telephonyManager.getSimSerialNumber();
+            if (SimSerialNumber.isEmpty()) {
+                SimSerialNumber = context.getResources().getString(R.string.empty);
+            }
+            return SimSerialNumber;
+        } catch (Exception e) {
+            return context.getResources().getString(R.string.not_allowed);
+        }
+    }
+
+    public String getImsi() {
+        try {
+            String imsi = telephonyManager.getSubscriberId();
+            if (imsi.isEmpty()) {
+                imsi = context.getResources().getString(R.string.empty);
+            }
+            return imsi;
+        } catch (Exception e) {
+            return context.getResources().getString(R.string.not_allowed);
+        }
+    }
+
+    public String getSimCountry() {
+        try {
+            String countryISO = telephonyManager.getSimCountryIso().toUpperCase();
+            if (countryISO.isEmpty()) {
+                countryISO = context.getResources().getString(R.string.empty);
+            }
+            return countryISO;
+        } catch (Exception e) {
+            return context.getResources().getString(R.string.not_allowed);
+        }
+    }
+
+    /*public String getSIMSWVersion() {
+        try {
+            String simSWVersion = telephonyManager.getDeviceSoftwareVersion();
+            if (simSWVersion.isEmpty()) {
+                simSWVersion = context.getResources().getString(R.string.empty);
+            }
+            return simSWVersion;
+        } catch (Exception e) {
+            return context.getResources().getString(R.string.not_allowed);
+        }
+    }*/
+
+    /*public String getDataRoamingEnabled() {
+        try {
+            if(Settings.Global.DATA_ROAMING == "1"){
+                return context.getResources().getString(R.string.yes);
+            }
+            return context.getResources().getString(R.string.no);
+        }catch (Exception e){
+            return context.getResources().getString(R.string.not_allowed);
+        }
+    }*/
+
+    public String getCallsRoamingEnabled() {
+        try {
+            if (telephonyManager.isNetworkRoaming()) {
+                return context.getResources().getString(R.string.yes);
+            }
+            return context.getResources().getString(R.string.no);
+        } catch (Exception e) {
+            return context.getResources().getString(R.string.not_allowed);
+        }
+    }
+
+    /*OPERATOR INFO*/
+
+    public String getSimOperatorName() {
+        try {
+            String operatorName = telephonyManager.getSimOperatorName();
+            if (operatorName.isEmpty()) {
+                operatorName = context.getResources().getString(R.string.empty);
+            }
+            return operatorName;
+        } catch (Exception e) {
+            return context.getResources().getString(R.string.not_allowed);
+        }
+    }
+
+    public String getMCC() {
+        try {
+            String networkOperator = telephonyManager.getNetworkOperator();
+            if (networkOperator.isEmpty()) {
+                return context.getResources().getString(R.string.empty);
+            }
+            String mcc = networkOperator.substring(0, 3);
+            return mcc;
+        } catch (Exception e) {
+            return context.getResources().getString(R.string.not_allowed);
+        }
+    }
+
+    public String getMNC() {
+        try {
+            String networkOperator = telephonyManager.getNetworkOperator();
+            if (networkOperator.isEmpty()) {
+                return context.getResources().getString(R.string.empty);
+            }
+            String mnc = "-";
+            mnc = networkOperator.substring(3);
+            return mnc;
+        } catch (Exception e) {
+            return context.getResources().getString(R.string.not_allowed);
+        }
+    }
+
+    /*VOICE MAIL INFO*/
+
+    public String getVoiceMailName() {
+        try {
+            String simVoiceName = telephonyManager.getVoiceMailAlphaTag();
+            if (simVoiceName.isEmpty()) {
+                simVoiceName = context.getResources().getString(R.string.empty);
+            }
+            return simVoiceName;
+        } catch (Exception e) {
+            return context.getResources().getString(R.string.not_allowed);
+        }
+    }
+
+    public String getVoiceMailNumber() {
+        try {
+            String simVoiceNumber = telephonyManager.getVoiceMailNumber();
+            if (simVoiceNumber.isEmpty()) {
+                simVoiceNumber = context.getResources().getString(R.string.empty);
+            }
+            return simVoiceNumber;
+        } catch (Exception e) {
+            return context.getResources().getString(R.string.not_allowed);
+        }
+    }
+
     /* DEVICE */
 
     public String getManufacturer() {

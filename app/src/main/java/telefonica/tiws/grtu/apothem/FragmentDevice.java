@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 public class FragmentDevice extends Fragment {
 
-    static boolean initTimer1=false;
+    static boolean initTimer=false;
     static DeviceInfo deviceInfo;
     final Handler handler = new Handler();
 
@@ -41,8 +41,8 @@ public class FragmentDevice extends Fragment {
         deviceInfo=new DeviceInfo(getActivity());
 
         fillViewInfo(rootView);
-        if(!initTimer1) {
-            initTimer1=true;
+        if(!initTimer) {
+            initTimer=true;
             handler.post(new Runnable() {
                 @Override
                 public void run() {

@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:layout_marginTop="@dimen/top_margin_to_bar"
+    android:background="#ccc">
+
+    <!-- Main wrapper -->
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/first_element_margin_top"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingBottom="@dimen/first_element_padding_bottom">
+
+        <!--SIM container-->
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_shadow"
+            android:paddingTop="@dimen/info_container_padding_top"
+            android:paddingLeft="@dimen/info_container_padding_left"
+            android:paddingRight="@dimen/info_container_padding_right"
+            android:paddingBottom="@dimen/info_container_padding_bottom"
+            android:layout_marginTop="@dimen/info_container_margin_top"
+            android:id="@+id/relativeLayoutParent1">
+
+            <ImageView
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:tint="@color/titleColor"
+                android:layout_marginLeft="@dimen/icon_margin_left"
+                android:layout_marginTop="@dimen/icon_margin_top"
+                android:src="@drawable/ic_sim"
+                android:id="@+id/iconSim"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/title_text_size"
+                android:textColor="@color/titleColor"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="@dimen/title_margin_left"
+                android:layout_marginTop="@dimen/title_margin_top"
+                android:text="SIM principal"
+                android:layout_toRightOf="@+id/iconSim"/>
+
+            <!--Info container-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/info_container_padding"
+                android:layout_below="@+id/iconSim">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@android:color/darker_gray"/>
+
+                <!--Info element-->
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/info_element_padding"
+                    android:layout_marginTop="@dimen/info_element_margin_top"
+                    android:id="@+id/relativeLayoutSim1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="Estado de la SIM" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/empty"
+                        android:layout_alignParentRight="true"
+                        android:id="@+id/simText1"/>
+                </RelativeLayout>
+
+                <!--Info element-->
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/info_element_padding"
+                    android:layout_marginTop="@dimen/info_element_margin_top"
+                    android:layout_below="@+id/relativeLayoutSim1"
+                    android:id="@+id/relativeLayoutSim2">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="Num. teléfono" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/empty"
+                        android:layout_alignParentRight="true"
+                        android:id="@+id/simText2"/>
+                </RelativeLayout>
+
+                <!--Info element-->
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/info_element_padding"
+                    android:layout_marginTop="@dimen/info_element_margin_top"
+                    android:layout_below="@+id/relativeLayoutSim2"
+                    android:id="@+id/relativeLayoutSim3">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="Num. serie" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/empty"
+                        android:layout_alignParentRight="true"
+                        android:id="@+id/simText3"/>
+                </RelativeLayout>
+
+                <!--Info element-->
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/info_element_padding"
+                    android:layout_marginTop="@dimen/info_element_margin_top"
+                    android:layout_below="@+id/relativeLayoutSim3"
+                    android:id="@+id/relativeLayoutSim4">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="IMSI" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/empty"
+                        android:layout_alignParentRight="true"
+                        android:id="@+id/simText4"/>
+                </RelativeLayout>
+
+                <!--Info element-->
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/info_element_padding"
+                    android:layout_marginTop="@dimen/info_element_margin_top"
+                    android:layout_below="@+id/relativeLayoutSim4"
+                    android:id="@+id/relativeLayoutSim5">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="País SIM" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/empty"
+                        android:layout_alignParentRight="true"
+                        android:id="@+id/simText5"/>
+                </RelativeLayout>
+
+                <!--Info element-->
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/info_element_padding"
+                    android:layout_marginTop="@dimen/info_element_margin_top"
+                    android:layout_below="@+id/relativeLayoutSim5"
+                    android:id="@+id/relativeLayoutSim6">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="En roaming" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/empty"
+                        android:layout_alignParentRight="true"
+                        android:id="@+id/simText6"/>
+                </RelativeLayout>
+
+            </RelativeLayout>
+            <!--End info container-->
+        </RelativeLayout>
+        <!--End container-->
+
+        <!--Operator container-->
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_shadow"
+            android:paddingTop="@dimen/info_container_padding_top"
+            android:paddingLeft="@dimen/info_container_padding_left"
+            android:paddingRight="@dimen/info_container_padding_right"
+            android:paddingBottom="@dimen/info_container_padding_bottom"
+            android:layout_marginTop="@dimen/info_container_margin_top"
+            android:layout_below="@id/relativeLayoutParent1"
+            android:id="@+id/relativeLayoutParent2">
+
+            <ImageView
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:tint="@color/titleColor"
+                android:layout_marginLeft="@dimen/icon_margin_left"
+                android:layout_marginTop="@dimen/icon_margin_top"
+                android:src="@drawable/ic_operator"
+                android:id="@+id/iconOperator"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/title_text_size"
+                android:textColor="@color/titleColor"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="@dimen/title_margin_left"
+                android:layout_marginTop="@dimen/title_margin_top"
+                android:text="Operadora"
+                android:layout_toRightOf="@+id/iconOperator"/>
+
+            <!--Info container-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/info_container_padding"
+                android:layout_below="@+id/iconOperator">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@android:color/darker_gray"/>
+
+                <!--Info element-->
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/info_element_padding"
+                    android:layout_marginTop="@dimen/info_element_margin_top"
+                    android:id="@+id/relativeLayoutOperator1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="Operadora de SIM" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/empty"
+                        android:layout_alignParentRight="true"
+                        android:id="@+id/operatorText1"/>
+                </RelativeLayout>
+
+                <!--Info element-->
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/info_element_padding"
+                    android:layout_marginTop="@dimen/info_element_margin_top"
+                    android:layout_below="@+id/relativeLayoutOperator1"
+                    android:id="@+id/relativeLayoutOperator2">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="MCC" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/empty"
+                        android:layout_alignParentRight="true"
+                        android:id="@+id/operatorText2"/>
+                </RelativeLayout>
+
+                <!--Info element-->
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/info_element_padding"
+                    android:layout_marginTop="@dimen/info_element_margin_top"
+                    android:layout_below="@+id/relativeLayoutOperator2"
+                    android:id="@+id/relativeLayoutOperator3">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="MNC" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/empty"
+                        android:layout_alignParentRight="true"
+                        android:id="@+id/operatorText3"/>
+                </RelativeLayout>
+
+                <!--Info element-->
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/info_element_padding"
+                    android:layout_marginTop="@dimen/info_element_margin_top"
+                    android:layout_below="@+id/relativeLayoutOperator3"
+                    android:id="@+id/relativeLayoutOperator4">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="Nombre de buzón voz" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/empty"
+                        android:layout_alignParentRight="true"
+                        android:id="@+id/operatorText4"/>
+                </RelativeLayout>
+
+                <!--Info element-->
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/info_element_padding"
+                    android:layout_marginTop="@dimen/info_element_margin_top"
+                    android:layout_below="@+id/relativeLayoutOperator4"
+                    android:id="@+id/relativeLayoutOperator5">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="Número de buzón de voz" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/empty"
+                        android:layout_alignParentRight="true"
+                        android:id="@+id/operatorText5"/>
+                </RelativeLayout>
+
+            </RelativeLayout>
+            <!--End info container-->
+        </RelativeLayout>
+        <!--End container-->
+
+    </RelativeLayout>
+</ScrollView>

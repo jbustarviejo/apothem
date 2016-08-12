@@ -6,17 +6,14 @@ import android.app.AlarmManager;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.PendingIntent;
-import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.view.menu.MenuView;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -32,6 +29,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private static DataBase dataBase;
     public final static int FINISH_LANDING = 1;
 
+    NavigationView navigationView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         thisActivity=this;
@@ -42,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         DataBase.SettingsRecord settingsRecord = dataBase.getSettings(thisActivity);
         //settingsRecord.hasInitApp=false; //DELETE THIS<=============
+
         //Start storage of data in background
         startBackgroundService();
 
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         if(!settingsRecord.hasInitApp){
@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
            checkPermissions();
         }
 
-        drawFragment(R.id.nav_device);
+        drawFragment(R.id.nav_connection);
     }
 
     private void startBackgroundService(){
@@ -134,21 +134,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Fragment fragment;
 
         if (id == R.id.nav_device) {
+            navigationView.getMenu().getItem(1).setChecked(true);
             fragment = new FragmentDevice();
-        } else if (id == R.id.nav_connection) {
-            fragment = new FragmentConnection();
+        } else if (id == R.id.nav_sim) {
+            navigationView.getMenu().getItem(2).setChecked(true);
+            fragment = new FragmentSim();
         } else if (id == R.id.nav_network) {
+            navigationView.getMenu().getItem(3).setChecked(true);
             fragment = new FragmentNetwork();
         } else if (id == R.id.nav_calls) {
+            navigationView.getMenu().getItem(4).setChecked(true);
             fragment = new FragmentCalls();
         } else if (id == R.id.nav_location) {
+            navigationView.getMenu().getItem(5).setChecked(true);
             fragment = new FragmentLocation();
         } else if (id == R.id.nav_settings) {
+            navigationView.getMenu().getItem(6).setChecked(true);
             fragment = new FragmentSettings();
         } else if (id == R.id.nav_email) {
+            navigationView.getMenu().getItem(7).setChecked(true);
             fragment = new FragmentEmail();
         } else{
-            fragment = new FragmentMain();
+            navigationView.getMenu().getItem(0).setChecked(true);
+            fragment = new FragmentConnection();
         }
 
         // Insert the fragment by replacing any existing fragment
