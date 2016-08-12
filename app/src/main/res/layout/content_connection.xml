@@ -1,19 +1,396 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    android:layout_marginTop="@dimen/top_margin_to_bar"
+    android:background="#ccc">
 
-    <TextView
-        android:text="Connection"
+    <!-- Main wrapper -->
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
-</RelativeLayout>
+        android:layout_marginTop="@dimen/first_element_margin_top"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingBottom="@dimen/first_element_padding_bottom">
+
+        <!--Device container-->
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_shadow"
+            android:paddingTop="@dimen/info_container_padding_top"
+            android:paddingLeft="@dimen/info_container_padding_left"
+            android:paddingRight="@dimen/info_container_padding_right"
+            android:paddingBottom="@dimen/info_container_padding_bottom"
+            android:layout_marginTop="@dimen/info_container_margin_top"
+            android:id="@+id/relativeLayoutParent1">
+
+            <ImageView
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:tint="@color/titleColor"
+                android:layout_marginLeft="@dimen/icon_margin_left"
+                android:layout_marginTop="@dimen/icon_margin_top"
+                android:src="@drawable/ic_arrows"
+                android:id="@+id/iconConnection"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/title_text_size"
+                android:textColor="@color/titleColor"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="@dimen/title_margin_left"
+                android:layout_marginTop="@dimen/title_margin_top"
+                android:text="Conexión de datos"
+                android:layout_toRightOf="@+id/iconConnection"/>
+
+            <!--Info container-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/info_container_padding"
+                android:layout_below="@+id/iconConnection">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@android:color/darker_gray"/>
+
+                <!--Info element-->
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/info_element_padding"
+                    android:layout_marginTop="@dimen/info_element_margin_top"
+                    android:id="@+id/relativeLayoutConnection1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="Tipo de red" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/empty"
+                        android:layout_alignParentRight="true"
+                        android:id="@+id/connectionText1"/>
+                </RelativeLayout>
+
+                <!--Info element-->
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/info_element_padding"
+                    android:layout_marginTop="@dimen/info_element_margin_top"
+                    android:layout_below="@+id/relativeLayoutConnection1"
+                    android:id="@+id/relativeLayoutConnection2">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="Estado" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/empty"
+                        android:layout_alignParentRight="true"
+                        android:id="@+id/connectionText2"/>
+                </RelativeLayout>
+
+                <!--Info element-->
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/info_element_padding"
+                    android:layout_marginTop="@dimen/info_element_margin_top"
+                    android:layout_below="@+id/relativeLayoutConnection2"
+                    android:id="@+id/relativeLayoutConnection3">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="MAC" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/empty"
+                        android:layout_alignParentRight="true"
+                        android:id="@+id/connectionText3"/>
+                </RelativeLayout>
+
+                <!--Info element-->
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/info_element_padding"
+                    android:layout_marginTop="@dimen/info_element_margin_top"
+                    android:layout_below="@+id/relativeLayoutConnection3"
+                    android:id="@+id/relativeLayoutConnection4">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="IP" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/empty"
+                        android:layout_alignParentRight="true"
+                        android:id="@+id/connectionText4"/>
+                </RelativeLayout>
+
+            </RelativeLayout>
+            <!--End info container-->
+        </RelativeLayout>
+        <!--End container-->
+
+        <!--System container-->
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_shadow"
+            android:paddingTop="@dimen/info_container_padding_top"
+            android:paddingLeft="@dimen/info_container_padding_left"
+            android:paddingRight="@dimen/info_container_padding_right"
+            android:paddingBottom="@dimen/info_container_padding_bottom"
+            android:layout_marginTop="@dimen/info_container_margin_top"
+            android:layout_below="@id/relativeLayoutParent1"
+            android:id="@+id/relativeLayoutParent2">
+
+            <ImageView
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:tint="@color/titleColor"
+                android:layout_marginLeft="@dimen/icon_margin_left"
+                android:layout_marginTop="@dimen/icon_margin_top"
+                android:src="@drawable/ic_wifi"
+                android:id="@+id/iconWifi"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/title_text_size"
+                android:textColor="@color/titleColor"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="@dimen/title_margin_left"
+                android:layout_marginTop="@dimen/title_margin_top"
+                android:text="Conexión Wifi"
+                android:layout_toRightOf="@+id/iconWifi"/>
+
+            <!--Info container-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/info_container_padding"
+                android:layout_below="@+id/iconWifi">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@android:color/darker_gray"/>
+
+                <!--Info element-->
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/info_element_padding"
+                    android:layout_marginTop="@dimen/info_element_margin_top"
+                    android:id="@+id/relativeLayoutWifi1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="SSID" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/empty"
+                        android:layout_alignParentRight="true"
+                        android:id="@+id/wifiText1"/>
+                </RelativeLayout>
+
+                <!--Info element-->
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/info_element_padding"
+                    android:layout_marginTop="@dimen/info_element_margin_top"
+                    android:layout_below="@+id/relativeLayoutWifi1"
+                    android:id="@+id/relativeLayoutWifi2">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="RSSI" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/empty"
+                        android:layout_alignParentRight="true"
+                        android:id="@+id/wifiText2"/>
+                </RelativeLayout>
+
+                <!--Info element-->
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/info_element_padding"
+                    android:layout_marginTop="@dimen/info_element_margin_top"
+                    android:layout_below="@+id/relativeLayoutWifi2"
+                    android:id="@+id/relativeLayoutWifi3">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="Capacidad de red" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/empty"
+                        android:layout_alignParentRight="true"
+                        android:id="@+id/wifiText3"/>
+                </RelativeLayout>
+
+                <!--Info element-->
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/info_element_padding"
+                    android:layout_marginTop="@dimen/info_element_margin_top"
+                    android:layout_below="@+id/relativeLayoutWifi3"
+                    android:id="@+id/relativeLayoutWifi4">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="Banda de conexión" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/empty"
+                        android:layout_alignParentRight="true"
+                        android:id="@+id/wifiText4"/>
+                </RelativeLayout>
+
+            </RelativeLayout>
+            <!--End info container-->
+        </RelativeLayout>
+        <!--End container-->
+
+        <!--Location container-->
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_shadow"
+            android:paddingTop="@dimen/info_container_padding_top"
+            android:paddingLeft="@dimen/info_container_padding_left"
+            android:paddingRight="@dimen/info_container_padding_right"
+            android:paddingBottom="@dimen/info_container_padding_bottom"
+            android:layout_marginTop="@dimen/info_container_margin_top"
+            android:layout_below="@id/relativeLayoutParent2"
+            android:id="@+id/relativeLayoutParent3">
+
+            <ImageView
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:tint="@color/titleColor"
+                android:layout_marginLeft="@dimen/icon_margin_left"
+                android:layout_marginTop="@dimen/icon_margin_top"
+                android:src="@drawable/ic_received"
+                android:id="@+id/iconSpeed"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/title_text_size"
+                android:textColor="@color/titleColor"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="@dimen/title_margin_left"
+                android:layout_marginTop="@dimen/title_margin_top"
+                android:text="Test de conexión"
+                android:layout_toRightOf="@+id/iconSpeed"/>
+
+            <!--Info container-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/info_container_padding"
+                android:layout_below="@+id/iconSpeed">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@android:color/darker_gray"/>
+
+                <!--Info element-->
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/info_element_padding"
+                    android:layout_marginTop="@dimen/info_element_margin_top"
+                    android:id="@+id/relativeLayoutSpeed1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="Velocidad percibida" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/empty"
+                        android:layout_alignParentRight="true"
+                        android:id="@+id/speedText1"/>
+                </RelativeLayout>
+
+                <!--Info element-->
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/info_element_padding"
+                    android:layout_marginTop="@dimen/info_element_margin_top"
+                    android:layout_below="@+id/relativeLayoutSpeed1"
+                    android:id="@+id/relativeLayoutSpeed2">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="Latencia" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/empty"
+                        android:layout_alignParentRight="true"
+                        android:id="@+id/speedText2"/>
+                </RelativeLayout>
+
+            </RelativeLayout>
+            <!--End info container-->
+        </RelativeLayout>
+        <!--End container-->
+
+    </RelativeLayout>
+</ScrollView>

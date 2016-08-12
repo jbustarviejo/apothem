@@ -1,13 +1,29 @@
 package telefonica.tiws.grtu.apothem;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.BatteryManager;
 import android.os.Build;
 import android.telephony.TelephonyManager;
+import android.text.format.Formatter;
+import android.util.Log;
+
+import java.io.InputStream;
+import java.math.BigInteger;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.List;
 
 public class DeviceInfo {
 
@@ -328,4 +344,248 @@ public class DeviceInfo {
         return gpsTracker.getLatitude();
     }
 
+    /*CONNECTION INFO*/
+
+    public String getNetworkType() {
+        try {
+            int type = connectivityManager.getActiveNetworkInfo().getType();
+            String type_s = context.getResources().getString(R.string.empty);
+            switch (type) {
+                case 0:
+                    type_s = "Red Móvil de datos";
+                    break;
+                case 1:
+                    type_s = "WiFi";
+                    break;
+                case 2:
+                    type_s = "Red Móvil MMS";
+                    break;
+                case 3:
+                    type_s = "Red Móvil SUPL";
+                    break;
+                case 4:
+                    type_s = "Red Móvil DUN";
+                    break;
+                case 5:
+                    type_s = "Red Móvil HiPri";
+                    break;
+                case 6:
+                    type_s = "WiMAX";
+                    break;
+                case 9:
+                    type_s = "Ethernet";
+                    break;
+                case 17:
+                    type_s = "VPN";
+                    break;
+            }
+
+            String subtype = connectivityManager.getActiveNetworkInfo().getSubtypeName();
+            if (subtype.isEmpty() || subtype == "UNKNOWN") {
+                return type_s;
+            }
+            return type_s + " (" + subtype + ")";
+        } catch (Exception e) {
+            return context.getResources().getString(R.string.not_allowed);
+        }
+    }
+
+    /*public String getNetworkExtra() {
+        try {
+            String extra = connectivityManager.getActiveNetworkInfo().getExtraInfo();
+            if (extra.isEmpty()) {
+                extra = context.getResources().getString(R.string.empty);
+            }
+            return extra;
+        }catch (Exception e){
+            return context.getResources().getString(R.string.not_allowed);
+        }
+    }*/
+
+    public String getNetworkStatus() {
+        try {
+            String status = connectivityManager.getActiveNetworkInfo().getDetailedState().toString();
+            if (status.isEmpty()) {
+                status = context.getResources().getString(R.string.empty);
+            }
+            String status_str = status;
+            switch (status) {
+                case "CONNECTED":
+                    status_str = "Conectado";
+                    break;
+                case "DISONNECTED":
+                    status_str = "Desconectado";
+                    break;
+                case "AUTHENTICATING":
+                    status_str = "Autenticando...";
+                    break;
+                case "CONNECTING":
+                    status_str = "Conectando...";
+                    break;
+                case "DISCONNECTING":
+                    status_str = "Desconectando...";
+                    break;
+                case "IDLE":
+                    status_str = "Activa";
+                    break;
+                case "CAPTIVE_PORTAL_CHECK":
+                    status_str = "Portal cautivo detectado";
+                    break;
+                case "BLOCKED":
+                    status_str = "Bloqueado";
+                    break;
+                case "OBTAINING_IPADDR":
+                    status_str = "Obteniendo IP...";
+                    break;
+                case "SCANNING":
+                    status_str = "Escaneando redes...";
+                    break;
+                case "VERIFYING":
+                    status_str = "Vericando...";
+                    break;
+                case "FAILED":
+                    status_str = "Fallo de conexión";
+                    break;
+                case "SUSPENDED":
+                    status_str = "Suspendida";
+                    break;
+            }
+            return status_str;
+        } catch (Exception e) {
+            return context.getResources().getString(R.string.not_allowed);
+        }
+    }
+
+
+    public String getMAC() {
+        try {
+            List<NetworkInterface> all = Collections.list(NetworkInterface.getNetworkInterfaces());
+            for (NetworkInterface nif : all) {
+                if (!nif.getName().equalsIgnoreCase("wlan0")) continue;
+
+                byte[] macBytes = nif.getHardwareAddress();
+                if (macBytes == null) {
+                    return "";
+                }
+
+                StringBuilder res1 = new StringBuilder();
+                for (byte b : macBytes) {
+                    res1.append(String.format("%02X:",b));
+                }
+
+                if (res1.length() > 0) {
+                    res1.deleteCharAt(res1.length() - 1);
+                }
+                return res1.toString();
+            }
+        } catch (Exception ex) {
+            return context.getResources().getString(R.string.not_allowed);
+        }
+        return context.getResources().getString(R.string.empty);
+    }
+
+    public String getIP() {
+        try {
+            NetworkInfo mWifi = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+            if (mWifi.isConnected()) {
+                return getWifiIP();
+            }else {
+                for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements(); ) {
+                    NetworkInterface intf = en.nextElement();
+                    for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements(); ) {
+                        InetAddress inetAddress = enumIpAddr.nextElement();
+                        if (!inetAddress.isLoopbackAddress()) {
+                            String ip = Formatter.formatIpAddress(inetAddress.hashCode());
+                            return ip;
+                        }
+                    }
+                }
+                return context.getResources().getString(R.string.empty);
+            }
+        } catch (SocketException ex) {
+            return context.getResources().getString(R.string.not_allowed);
+        }
+    }
+
+    public String getWifiIP() {
+        try {
+            WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+            int ipAddressOriginal = wifiInfo.getIpAddress();
+            if (ipAddressOriginal == 0) {
+                return context.getResources().getString(R.string.empty);
+            }
+            byte[] ipAddress = BigInteger.valueOf(ipAddressOriginal).toByteArray();
+            InetAddress myaddr = InetAddress.getByAddress(ipAddress);
+            String hostaddr = myaddr.getHostAddress(); // numeric representation (such as "127.0.0.1")
+            if (hostaddr.isEmpty()) {
+                hostaddr = context.getResources().getString(R.string.empty);
+            }
+            return hostaddr;
+        } catch (Exception e) {
+            return context.getResources().getString(R.string.not_allowed);
+        }
+    }
+
+    /*WIFI INFO*/
+
+    public String getSSID() {
+        try {
+            WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+            String ssid = wifiInfo.getSSID();
+            if (ssid.isEmpty()) {
+                ssid = context.getResources().getString(R.string.empty);
+            }
+            if (ssid == "0x" || ssid == "<unknown ssid>") {
+                return context.getResources().getString(R.string.empty);
+            }
+            return ssid;
+        } catch (Exception e) {
+            return context.getResources().getString(R.string.not_allowed);
+        }
+    }
+
+    public String getWifiRssi() {
+        try {
+            WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+            int rssi = wifiInfo.getRssi();
+            if (rssi == -127) {
+                return context.getResources().getString(R.string.empty);
+            }
+            return rssi + " dbm";
+        } catch (Exception e) {
+            return context.getResources().getString(R.string.not_allowed);
+        }
+    }
+
+    public String getWifiLinkSpeed() {
+        try {
+            WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+            int speed = wifiInfo.getLinkSpeed();
+            if (speed == -1) {
+                return context.getResources().getString(R.string.empty);
+            }
+            return speed + " " + wifiInfo.LINK_SPEED_UNITS;
+        } catch (Exception e) {
+            return context.getResources().getString(R.string.not_allowed);
+        }
+    }
+
+    public String getWifiLinkFreq() {
+        try {
+            WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+            int freq = 0;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                freq = wifiInfo.getFrequency();
+            }else{
+                return context.getResources().getString(R.string.empty);
+            }
+            if (freq == -1) {
+                return context.getResources().getString(R.string.empty);
+            }
+            return freq + " " + wifiInfo.FREQUENCY_UNITS;
+        } catch (Exception e) {
+            return context.getResources().getString(R.string.not_allowed);
+        }
+    }
 }

@@ -15,4 +15,7 @@
     <string name="yes">Sí</string>
     <string name="no">No</string>
 
+    <!--Speed test-->
+    <string name="not_available_speed">--- bits/s</string>
+    <string name="not_available_latency">--- ms</string>
 </resources>
