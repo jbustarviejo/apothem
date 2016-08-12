@@ -1,19 +1,364 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    android:layout_marginTop="@dimen/top_margin_to_bar"
+    android:background="#ccc">
 
-    <TextView
-        android:text="Device"
+    <!-- Main wrapper -->
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
-</RelativeLayout>
+        android:layout_marginTop="@dimen/first_element_margin_top"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingBottom="@dimen/first_element_padding_bottom">
+
+        <!--Device container-->
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_shadow"
+            android:paddingTop="@dimen/info_container_padding_top"
+            android:paddingLeft="@dimen/info_container_padding_left"
+            android:paddingRight="@dimen/info_container_padding_right"
+            android:paddingBottom="@dimen/info_container_padding_bottom"
+            android:layout_marginTop="@dimen/info_container_margin_top"
+            android:id="@+id/relativeLayoutParent1">
+
+            <ImageView
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:tint="@color/titleColor"
+                android:layout_marginLeft="@dimen/icon_margin_left"
+                android:layout_marginTop="@dimen/icon_margin_top"
+                android:src="@drawable/ic_phone"
+                android:id="@+id/iconDevice"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/title_text_size"
+                android:textColor="@color/titleColor"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="@dimen/title_margin_left"
+                android:layout_marginTop="@dimen/title_margin_top"
+                android:text="Dispositivo"
+                android:layout_toRightOf="@+id/iconDevice"/>
+
+            <!--Info container-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/info_container_padding"
+                android:layout_below="@+id/iconDevice">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@android:color/darker_gray"/>
+
+                <!--Info element-->
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/info_element_padding"
+                    android:layout_marginTop="@dimen/info_element_margin_top"
+                    android:id="@+id/relativeLayoutDevice1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="Fabricante" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/empty"
+                        android:layout_alignParentRight="true" />
+                </RelativeLayout>
+
+                <!--Info element-->
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/info_element_padding"
+                    android:layout_marginTop="@dimen/info_element_margin_top"
+                    android:layout_below="@+id/relativeLayoutDevice1"
+                    android:id="@+id/relativeLayoutDevice2">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="Marca" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/empty"
+                        android:layout_alignParentRight="true" />
+                </RelativeLayout>
+
+                <!--Info element-->
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/info_element_padding"
+                    android:layout_marginTop="@dimen/info_element_margin_top"
+                    android:layout_below="@+id/relativeLayoutDevice2"
+                    android:id="@+id/relativeLayoutDevice3">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="Modelo" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/empty"
+                        android:layout_alignParentRight="true" />
+                </RelativeLayout>
+
+                <!--Info element-->
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/info_element_padding"
+                    android:layout_marginTop="@dimen/info_element_margin_top"
+                    android:layout_below="@+id/relativeLayoutDevice3"
+                    android:id="@+id/relativeLayoutDevice4">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="Tipo de teléfono" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/empty"
+                        android:layout_alignParentRight="true" />
+                </RelativeLayout>
+
+                <!--Info element-->
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/info_element_padding"
+                    android:layout_marginTop="@dimen/info_element_margin_top"
+                    android:layout_below="@+id/relativeLayoutDevice4"
+                    android:id="@+id/relativeLayoutDevice5">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="IMEI" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/empty"
+                        android:layout_alignParentRight="true" />
+                </RelativeLayout>
+
+            </RelativeLayout>
+            <!--End info container-->
+        </RelativeLayout>
+        <!--End container-->
+
+        <!--System container-->
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_shadow"
+            android:paddingTop="@dimen/info_container_padding_top"
+            android:paddingLeft="@dimen/info_container_padding_left"
+            android:paddingRight="@dimen/info_container_padding_right"
+            android:paddingBottom="@dimen/info_container_padding_bottom"
+            android:layout_marginTop="@dimen/info_container_margin_top"
+            android:layout_below="@id/relativeLayoutParent1"
+            android:id="@+id/relativeLayoutParent2">
+
+            <ImageView
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:tint="@color/titleColor"
+                android:layout_marginLeft="@dimen/icon_margin_left"
+                android:layout_marginTop="@dimen/icon_margin_top"
+                android:src="@drawable/ic_android"
+                android:id="@+id/iconSystem"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/title_text_size"
+                android:textColor="@color/titleColor"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="@dimen/title_margin_left"
+                android:layout_marginTop="@dimen/title_margin_top"
+                android:text="Sistema"
+                android:layout_toRightOf="@+id/iconSystem"/>
+
+            <!--Info container-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/info_container_padding"
+                android:layout_below="@+id/iconSystem">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@android:color/darker_gray"/>
+
+                <!--Info element-->
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/info_element_padding"
+                    android:layout_marginTop="@dimen/info_element_margin_top"
+                    android:id="@+id/relativeLayoutSystem1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="Versión de Android" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/empty"
+                        android:layout_alignParentRight="true" />
+                </RelativeLayout>
+
+                <!--Info element-->
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/info_element_padding"
+                    android:layout_marginTop="@dimen/info_element_margin_top"
+                    android:layout_below="@+id/relativeLayoutSystem1"
+                    android:id="@+id/relativeLayoutSystem2">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="Nivel de batería" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/empty"
+                        android:layout_alignParentRight="true" />
+                </RelativeLayout>
+
+            </RelativeLayout>
+            <!--End info container-->
+        </RelativeLayout>
+        <!--End container-->
+
+        <!--Location container-->
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_shadow"
+            android:paddingTop="@dimen/info_container_padding_top"
+            android:paddingLeft="@dimen/info_container_padding_left"
+            android:paddingRight="@dimen/info_container_padding_right"
+            android:paddingBottom="@dimen/info_container_padding_bottom"
+            android:layout_marginTop="@dimen/info_container_margin_top"
+            android:layout_below="@id/relativeLayoutParent2"
+            android:id="@+id/relativeLayoutParent3">
+
+            <ImageView
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:tint="@color/titleColor"
+                android:layout_marginLeft="@dimen/icon_margin_left"
+                android:layout_marginTop="@dimen/icon_margin_top"
+                android:src="@drawable/ic_location"
+                android:id="@+id/iconLocation"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/title_text_size"
+                android:textColor="@color/titleColor"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="@dimen/title_margin_left"
+                android:layout_marginTop="@dimen/title_margin_top"
+                android:text="Ubicación actual"
+                android:layout_toRightOf="@+id/iconLocation"/>
+
+            <!--Info container-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/info_container_padding"
+                android:layout_below="@+id/iconLocation">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@android:color/darker_gray"/>
+
+                <!--Info element-->
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/info_element_padding"
+                    android:layout_marginTop="@dimen/info_element_margin_top"
+                    android:id="@+id/relativeLayoutLocation1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="Latitud" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/empty"
+                        android:layout_alignParentRight="true" />
+                </RelativeLayout>
+
+                <!--Info element-->
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/info_element_padding"
+                    android:layout_marginTop="@dimen/info_element_margin_top"
+                    android:layout_below="@+id/relativeLayoutLocation1"
+                    android:id="@+id/relativeLayoutLocation2">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="Longitud" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/empty"
+                        android:layout_alignParentRight="true" />
+                </RelativeLayout>
+
+            </RelativeLayout>
+            <!--End info container-->
+        </RelativeLayout>
+        <!--End container-->
+
+    </RelativeLayout>
+</ScrollView>

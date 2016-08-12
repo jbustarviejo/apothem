@@ -13,7 +13,7 @@
         <item
             android:id="@+id/nav_connection"
             android:icon="@drawable/ic_connection"
-            android:title="Conexión" />
+            android:title="Conexión y SIM" />
         <item
             android:id="@+id/nav_network"
             android:icon="@drawable/ic_network_check"
@@ -25,7 +25,7 @@
         <item
             android:id="@+id/nav_location"
             android:icon="@drawable/ic_location"
-            android:title="Ubicación" />
+            android:title="Ubicaciones" />
     </group>
 
     <item android:title="Ajustes e incidencias">

@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         deviceInfo = new DeviceInfo(thisActivity);
 
         DataBase.SettingsRecord settingsRecord = dataBase.getSettings(thisActivity);
-        settingsRecord.hasInitApp=false; //DELETE THIS<=============
+        //settingsRecord.hasInitApp=false; //DELETE THIS<=============
         //Start storage of data in background
         startBackgroundService();
 
@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }else {
            checkPermissions();
         }
-        drawFragment(R.id.nav_main);
+        drawFragment(R.id.nav_device);
     }
 
     private void startBackgroundService(){
@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
-    }*/
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override

@@ -43,8 +43,8 @@ public class AlarmService extends Service {
     private Runnable myTask = new Runnable() {
         public void run() {
         // Do something here
-        /*DataBase dataBase = new DataBase();
-        dataBase.storeLocationData(context, deviceInfo);*/
+        DataBase dataBase = new DataBase();
+        dataBase.storeLocationData(context, deviceInfo);
         Log.d("Alarm scheduled", "Doing things...");
         stopSelf();
         }

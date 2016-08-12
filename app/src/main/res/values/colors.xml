@@ -5,4 +5,8 @@
     <color name="telefonciaColorMiddle">#09576A</color>
     <color name="telefonicaColorDark">#033738</color>
 
+    <!--Fragments common dimmens-->
+    <color name="backgroundGray">#cccccc</color>
+    <color name="titleColor">#444</color>
+
 </resources>
