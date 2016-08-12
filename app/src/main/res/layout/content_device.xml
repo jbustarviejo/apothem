@@ -78,7 +78,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/empty"
-                        android:layout_alignParentRight="true" />
+                        android:layout_alignParentRight="true"
+                        android:id="@+id/deviceText1"/>
                 </RelativeLayout>
 
                 <!--Info element-->
@@ -100,7 +101,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/empty"
-                        android:layout_alignParentRight="true" />
+                        android:layout_alignParentRight="true"
+                        android:id="@+id/deviceText2"/>
                 </RelativeLayout>
 
                 <!--Info element-->
@@ -122,7 +124,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/empty"
-                        android:layout_alignParentRight="true" />
+                        android:layout_alignParentRight="true"
+                        android:id="@+id/deviceText3"/>
                 </RelativeLayout>
 
                 <!--Info element-->
@@ -144,7 +147,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/empty"
-                        android:layout_alignParentRight="true" />
+                        android:layout_alignParentRight="true"
+                        android:id="@+id/deviceText4"/>
                 </RelativeLayout>
 
                 <!--Info element-->
@@ -166,7 +170,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/empty"
-                        android:layout_alignParentRight="true" />
+                        android:layout_alignParentRight="true"
+                        android:id="@+id/deviceText5"/>
                 </RelativeLayout>
 
             </RelativeLayout>
@@ -237,7 +242,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/empty"
-                        android:layout_alignParentRight="true" />
+                        android:layout_alignParentRight="true"
+                        android:id="@+id/systemText1"/>
                 </RelativeLayout>
 
                 <!--Info element-->
@@ -259,7 +265,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/empty"
-                        android:layout_alignParentRight="true" />
+                        android:layout_alignParentRight="true"
+                        android:id="@+id/systemText2"/>
                 </RelativeLayout>
 
             </RelativeLayout>
@@ -330,7 +337,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/empty"
-                        android:layout_alignParentRight="true" />
+                        android:layout_alignParentRight="true"
+                        android:id="@+id/locationText1"/>
                 </RelativeLayout>
 
                 <!--Info element-->
@@ -352,7 +360,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/empty"
-                        android:layout_alignParentRight="true" />
+                        android:layout_alignParentRight="true"
+                        android:id="@+id/locationText2"/>
                 </RelativeLayout>
 
             </RelativeLayout>

@@ -112,13 +112,6 @@ public class GPSTracker extends Service implements LocationListener {
         return location;
     }
 
-    public boolean doIHaveGPSPermissions(){
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return true;
-        }
-        return false;
-    }
-
     public boolean isGPSNetworkEnabled(){
         if (!isGPSEnabled && !isNetworkEnabled) {
             return false;
@@ -153,9 +146,6 @@ public class GPSTracker extends Service implements LocationListener {
      * Function to get latitude as String
      * */
     public String getLatitudeToString(){
-        if(!doIHaveGPSPermissions()){
-            return context.getResources().getString(R.string.not_allowed);
-        }
         double latitude=this.getLatitude();
         if(latitude==0){
             return context.getResources().getString(R.string.empty);
@@ -179,9 +169,6 @@ public class GPSTracker extends Service implements LocationListener {
      * Function to get longitude as String
      * */
     public String getLongitudeToString(){
-        if(!doIHaveGPSPermissions()){
-            return context.getResources().getString(R.string.not_allowed);
-        }
         double longitude=this.getLongitude();
         if(longitude==0){
             return context.getResources().getString(R.string.empty);

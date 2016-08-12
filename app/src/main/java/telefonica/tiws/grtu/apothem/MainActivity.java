@@ -6,6 +6,7 @@ import android.app.AlarmManager;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.PendingIntent;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -15,6 +16,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.view.menu.MenuView;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -29,7 +31,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private static Activity thisActivity;
     private static DataBase dataBase;
     public final static int FINISH_LANDING = 1;
-    public static DeviceInfo deviceInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +39,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
 
         dataBase = new DataBase();
-        deviceInfo = new DeviceInfo(thisActivity);
 
         DataBase.SettingsRecord settingsRecord = dataBase.getSettings(thisActivity);
         //settingsRecord.hasInitApp=false; //DELETE THIS<=============
@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }else {
            checkPermissions();
         }
+
         drawFragment(R.id.nav_device);
     }
 
