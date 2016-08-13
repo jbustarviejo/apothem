@@ -1,19 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    android:layout_marginTop="@dimen/top_margin_to_bar"
+    android:background="#ccc">
 
-    <TextView
-        android:text="Network"
+    <!-- Main wrapper -->
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
-</RelativeLayout>
+        android:layout_marginTop="10dp"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingBottom="@dimen/first_element_padding_bottom">
+
+        <!--Network container-->
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/info_container_padding_bottom"
+            android:layout_marginTop="@dimen/info_container_margin_top"
+            android:id="@+id/relativeLayoutParent1">
+
+            <ImageView
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:tint="@color/titleColorDarker"
+                android:layout_marginTop="@dimen/icon_margin_top"
+                android:src="@drawable/ic_connection"
+                android:id="@+id/iconNetwork"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/title_text_size"
+                android:textColor="@color/titleColor"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="@dimen/title_margin_left"
+                android:layout_marginTop="@dimen/title_margin_top"
+                android:text="Estaciones cercanas"
+                android:layout_toRightOf="@+id/iconNetwork"/>
+
+            <!--Info container-->
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_marginTop="20dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/iconNetwork"
+                android:id="@+id/layoutStations"/>
+            <!--End info container-->
+        </RelativeLayout>
+        <!--End container-->
+
+    </RelativeLayout>
+</ScrollView>

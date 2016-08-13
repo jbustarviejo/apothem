@@ -21,22 +21,25 @@ public class FragmentConnection extends Fragment {
     static boolean initTimer=false;
     static boolean initTimerSpeedTest=false;
     static DeviceInfo deviceInfo;
-    final Handler handler = new Handler();
-    final Handler hTest = new Handler();
+    static final Handler handler = new Handler();
+    static final Handler hTest = new Handler();
 
     //TextViews
-    TextView textViewNWType;
-    TextView textViewNWStatus;
-    TextView textViewMac;
-    TextView textViewIP;
+    static TextView textViewNWType;
+    static TextView textViewNWStatus;
+    static TextView textViewMac;
+    static TextView textViewIP;
 
-    TextView textViewSSID;
-    TextView textViewRSSI;
-    TextView textViewLinkSpeed;
-    TextView textViewFreq;
+    static TextView textViewSSID;
+    static TextView textViewRSSI;
+    static TextView textViewLinkSpeed;
+    static TextView textViewFreq;
 
-    TextView textViewConnectionSpeed;
-    TextView textViewLatency;
+    static TextView textViewConnectionSpeed;
+    static TextView textViewLatency;
+
+    //Wifi layout
+    static RelativeLayout wifiLayout;
 
     //Speed test values
     static String speedTest;
@@ -72,7 +75,7 @@ public class FragmentConnection extends Fragment {
                 @Override
                 public void run() {
                     refreshTextViews();
-                    handler.postDelayed(this, 3000);
+                    handler.postDelayed(this, 2000);
                 }
             });
         }
@@ -94,9 +97,15 @@ public class FragmentConnection extends Fragment {
         textViewLinkSpeed = (TextView) thisView.findViewById(R.id.wifiText3);
         textViewFreq = (TextView) thisView.findViewById(R.id.wifiText4);
 
+        wifiLayout = (RelativeLayout) thisView.findViewById(R.id.relativeLayoutParent2);
+
         //Speed test values
-        speedTest = getActivity().getResources().getString(R.string.not_available_speed);
-        latencyTest = getActivity().getResources().getString(R.string.not_available_latency);
+        if(speedTest==null) {
+            speedTest = getActivity().getResources().getString(R.string.not_available_speed);
+        }
+        if(latencyTest==null) {
+            latencyTest = getActivity().getResources().getString(R.string.not_available_latency);
+        }
 
         //Speed test
         textViewConnectionSpeed = (TextView) thisView.findViewById(R.id.speedText1);
@@ -117,6 +126,12 @@ public class FragmentConnection extends Fragment {
         textViewRSSI.setText(deviceInfo.getWifiRssi());
         textViewLinkSpeed.setText(deviceInfo.getWifiLinkSpeed());
         textViewFreq.setText(deviceInfo.getWifiLinkFreq());
+
+        if(!deviceInfo.isWifiConnected()){
+            wifiLayout.setAlpha(0.5f);
+        }else{
+            wifiLayout.setAlpha(1);
+        }
 
         textViewConnectionSpeed.setText(speedTest);
         textViewLatency.setText(latencyTest);

@@ -1,5 +1,6 @@
 package telefonica.tiws.grtu.apothem;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
@@ -10,9 +11,25 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.BatteryManager;
 import android.os.Build;
+import android.telephony.CellIdentityCdma;
+import android.telephony.CellIdentityGsm;
+import android.telephony.CellIdentityLte;
+import android.telephony.CellIdentityWcdma;
+import android.telephony.CellInfo;
+import android.telephony.CellInfoCdma;
+import android.telephony.CellInfoGsm;
+import android.telephony.CellInfoLte;
+import android.telephony.CellInfoWcdma;
+import android.telephony.CellSignalStrengthCdma;
+import android.telephony.CellSignalStrengthGsm;
+import android.telephony.CellSignalStrengthLte;
+import android.telephony.CellSignalStrengthWcdma;
 import android.telephony.TelephonyManager;
 import android.text.format.Formatter;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
 
 import java.io.InputStream;
 import java.math.BigInteger;
@@ -21,6 +38,7 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
@@ -484,6 +502,15 @@ public class DeviceInfo {
         return context.getResources().getString(R.string.empty);
     }
 
+    public boolean isWifiConnected() {
+        NetworkInfo mWifi = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+        if (mWifi.isConnected()) {
+            return true;
+        }
+        return false;
+    }
+
     public String getIP() {
         try {
             NetworkInfo mWifi = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
@@ -588,4 +615,324 @@ public class DeviceInfo {
             return context.getResources().getString(R.string.not_allowed);
         }
     }
+
+     /*STATIONS NETWORK*/
+
+    public List<CellInfo> getAllCellsInfoListFromSystem() {
+        try {
+            List<CellInfo> cellList = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                cellList = telephonyManager.getAllCellInfo();
+            }else{
+                return null;
+            }
+            return cellList;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @SuppressLint("NewApi")
+    public List<StationInfo> getAllCellsInfo() {
+        try {
+            List<CellInfo> cellList = this.getAllCellsInfoListFromSystem();
+            if (cellList==null) {
+                return null;
+            }
+            List<StationInfo> cellInfoContainerArrayList= new ArrayList<StationInfo>();
+
+            for(CellInfo cellInfo : cellList) {
+
+                StationInfo stationInfo=new StationInfo();
+
+                try { //LTE
+                    CellInfoLte cellInfoClass = (CellInfoLte) cellInfo;
+                    CellIdentityLte cellIdentity = cellInfoClass.getCellIdentity();
+                    CellSignalStrengthLte cellSignalStrength = cellInfoClass.getCellSignalStrength();
+
+                    stationInfo.type="LTE";
+                    int unknownParamCount=0;
+
+                    if(cellInfoClass.isRegistered()){
+                        stationInfo.isRegistered=true;
+                    }
+
+                    //MNC
+                    int mnc=cellIdentity.getMnc();
+                    if(mnc==Integer.MAX_VALUE||mnc==0){
+                        stationInfo.mnc=context.getResources().getString(R.string.empty);
+                        unknownParamCount++;
+                    }else{
+                        stationInfo.mnc=mnc+"";
+                    }
+
+                    //MCC
+                    int mcc=cellIdentity.getMcc();
+                    if(mcc==Integer.MAX_VALUE||mcc==0){
+                        stationInfo.mnc=context.getResources().getString(R.string.empty);
+                        unknownParamCount++;
+                    }else{
+                        stationInfo.mcc=mcc+"";
+                    }
+
+                    //Cell id
+                    int mCid=cellIdentity.getCi();
+                    if(mCid==Integer.MAX_VALUE||mCid==0){
+                        stationInfo.id_cell=context.getResources().getString(R.string.empty);
+                        unknownParamCount++;
+                    }else{
+                        stationInfo.id_cell=mCid+"";
+                    }
+
+                    //LAC - TAC
+                    int lac=cellIdentity.getTac();
+                    if(lac==Integer.MAX_VALUE||lac==0){
+                        stationInfo.area_code=context.getResources().getString(R.string.empty);
+                        unknownParamCount++;
+                    }else{
+                        stationInfo.area_code=lac+"";
+                    }
+
+                    //Power
+                    int power=cellSignalStrength.getDbm();
+                    if(power==Integer.MAX_VALUE||power==0){
+                        stationInfo.power=context.getResources().getString(R.string.empty);
+                        unknownParamCount++;
+                    }else{
+                        stationInfo.power=power+" dBm";
+                    }
+
+                    //If we don't have enough info...
+                    if(unknownParamCount>2){
+                        stationInfo.enoughInfo=false;
+                        continue;
+                    }
+
+                    //Coverage level
+                    int level=cellSignalStrength.getLevel();
+                    stationInfo.signal=level;
+
+                }catch(ClassCastException elte) {
+                    //No LTE, GSM?
+                    try {
+                        CellInfoGsm cellInfoClass = (CellInfoGsm) cellInfo;
+                        CellIdentityGsm cellIdentity = cellInfoClass.getCellIdentity();
+                        CellSignalStrengthGsm cellSignalStrength = cellInfoClass.getCellSignalStrength();
+
+                        stationInfo.type="GSM";
+                        int unknownParamCount=0;
+
+                        if(cellInfoClass.isRegistered()){
+                            stationInfo.isRegistered=true;
+                        }
+
+                        //MNC
+                        int mnc=cellIdentity.getMnc();
+                        if(mnc==Integer.MAX_VALUE||mnc==0){
+                            stationInfo.mnc=context.getResources().getString(R.string.empty);
+                            unknownParamCount++;
+                        }else{
+                            stationInfo.mnc=mnc+"";
+                        }
+
+                        //MCC
+                        int mcc=cellIdentity.getMcc();
+                        if(mcc==Integer.MAX_VALUE||mcc==0){
+                            stationInfo.mnc=context.getResources().getString(R.string.empty);
+                            unknownParamCount++;
+                        }else{
+                            stationInfo.mcc=mcc+"";
+                        }
+
+                        //Cell id
+                        int mCid=cellIdentity.getCid();
+                        if(mCid==Integer.MAX_VALUE||mCid==0){
+                            stationInfo.id_cell=context.getResources().getString(R.string.empty);
+                            unknownParamCount++;
+                        }else{
+                            stationInfo.id_cell=mCid+"";
+                        }
+
+                        //LAC - TAC
+                        int lac=cellIdentity.getLac();
+                        if(lac==Integer.MAX_VALUE||lac==0){
+                            stationInfo.area_code=context.getResources().getString(R.string.empty);
+                            unknownParamCount++;
+                        }else{
+                            stationInfo.area_code=lac+"";
+                        }
+
+                        //Power
+                        int power=cellSignalStrength.getDbm();
+                        if(power==Integer.MAX_VALUE||power==0){
+                            stationInfo.power=context.getResources().getString(R.string.empty);
+                            unknownParamCount++;
+                        }else{
+                            stationInfo.power=power+" dBm";
+                        }
+
+                        //If we don't have enough info...
+                        if(unknownParamCount>2){
+                            stationInfo.enoughInfo=false;
+                            continue;
+                        }
+
+                        //Coverage level
+                        int level=cellSignalStrength.getLevel();
+                        stationInfo.signal=level;
+
+                    } catch (ClassCastException egsm) {
+                        //No GSM, WCDMA?
+                        try {
+                            CellInfoWcdma cellInfoClass = (CellInfoWcdma) cellInfo;
+                            CellIdentityWcdma cellIdentity = cellInfoClass.getCellIdentity();
+                            CellSignalStrengthWcdma cellSignalStrength = cellInfoClass.getCellSignalStrength();
+
+                            stationInfo.type="WCDMA";
+                            int unknownParamCount=0;
+
+                            if(cellInfoClass.isRegistered()){
+                                stationInfo.isRegistered=true;
+                            }
+
+                            //MNC
+                            int mnc=cellIdentity.getMnc();
+                            if(mnc==Integer.MAX_VALUE||mnc==0){
+                                stationInfo.mnc=context.getResources().getString(R.string.empty);
+                                unknownParamCount++;
+                            }else{
+                                stationInfo.mnc=mnc+"";
+                            }
+
+                            //MCC
+                            int mcc=cellIdentity.getMcc();
+                            if(mcc==Integer.MAX_VALUE||mcc==0){
+                                stationInfo.mnc=context.getResources().getString(R.string.empty);
+                                unknownParamCount++;
+                            }else{
+                                stationInfo.mcc=mcc+"";
+                            }
+
+                            //Cell id
+                            int mCid=cellIdentity.getCid();
+                            if(mCid==Integer.MAX_VALUE||mCid==0){
+                                stationInfo.id_cell=context.getResources().getString(R.string.empty);
+                                unknownParamCount++;
+                            }else{
+                                stationInfo.id_cell=mCid+"";
+                            }
+
+                            //LAC - TAC
+                            int lac=cellIdentity.getLac();
+                            if(lac==Integer.MAX_VALUE||lac==0){
+                                stationInfo.area_code=context.getResources().getString(R.string.empty);
+                                unknownParamCount++;
+                            }else{
+                                stationInfo.area_code=lac+"";
+                            }
+
+                            //Power
+                            int power=cellSignalStrength.getDbm();
+                            if(power==Integer.MAX_VALUE||power==0){
+                                stationInfo.power=context.getResources().getString(R.string.empty);
+                                unknownParamCount++;
+                            }else{
+                                stationInfo.power=power+" dBm";
+                            }
+
+                            //If we don't have enough info...
+                            if(unknownParamCount>2){
+                                stationInfo.enoughInfo=false;
+                                continue;
+                            }
+
+                            //Coverage level
+                            int level=cellSignalStrength.getLevel();
+                            stationInfo.signal=level;
+
+                        } catch (ClassCastException ewcdma) {
+                            //No WCDM, CDMA?
+                            try {
+                                CellInfoCdma cellInfoClass = (CellInfoCdma) cellInfo;
+                                CellIdentityCdma cellIdentity = cellInfoClass.getCellIdentity();
+                                CellSignalStrengthCdma cellSignalStrength = cellInfoClass.getCellSignalStrength();
+
+                                stationInfo.type="CDMA";
+                                int unknownParamCount=0;
+
+                                if(cellInfoClass.isRegistered()){
+                                    stationInfo.isRegistered=true;
+                                }
+
+                                //MNC
+                                stationInfo.mnc=context.getResources().getString(R.string.empty);
+
+                                //MCC
+                                stationInfo.mcc=context.getResources().getString(R.string.empty);
+
+                                //Cell id
+                                int mCid=cellIdentity.getBasestationId();
+                                if(mCid==Integer.MAX_VALUE||mCid==0){
+                                    stationInfo.id_cell=context.getResources().getString(R.string.empty);
+                                    unknownParamCount++;
+                                }else{
+                                    stationInfo.id_cell=mCid+"";
+                                }
+
+                                //LAC - TAC
+                                stationInfo.area_code=cellIdentity.getLatitude()+" "+cellIdentity.getLongitude();
+
+                                //Power
+                                int power=cellSignalStrength.getDbm();
+                                if(power==Integer.MAX_VALUE||power==0){
+                                    stationInfo.power=context.getResources().getString(R.string.empty);
+                                    unknownParamCount++;
+                                }else{
+                                    stationInfo.power=power+" dBm";
+                                }
+
+                                //If we don't have enough info...
+                                if(unknownParamCount>1){
+                                    stationInfo.enoughInfo=false;
+                                    continue;
+                                }
+
+                                //Coverage level
+                                int level=cellSignalStrength.getLevel();
+                                stationInfo.signal=level;
+
+                            } catch (ClassCastException ecdma) {
+                                //No CDMA
+                                stationInfo.type="¡No reconocido!";
+
+                                try {
+                                    throw new Exception("CAST EXCEPTION");
+                                } catch (Exception exception) {
+                                    exception.printStackTrace();
+                                }
+                            }
+                        }
+                    }
+                }
+                cellInfoContainerArrayList.add(stationInfo);
+            }
+
+            return cellInfoContainerArrayList;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public class StationInfo{
+        String type ="---";
+        boolean isRegistered = false;
+        String mnc="---";
+        String mcc="---";
+        String id_cell="---";
+        String area_code="---";
+        String power="---";
+        int signal=0;
+        boolean enoughInfo=true;
+    }
+
 }

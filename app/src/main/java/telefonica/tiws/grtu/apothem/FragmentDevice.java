@@ -14,20 +14,20 @@ public class FragmentDevice extends Fragment {
 
     static boolean initTimer=false;
     static DeviceInfo deviceInfo;
-    final Handler handler = new Handler();
+    static final Handler handler = new Handler();
 
     //TextViews
-    TextView textViewManufacturer;
-    TextView textViewBrand;
-    TextView textViewModel;
-    TextView textViewPhoneType;
-    TextView textViewImei;
+    static TextView textViewManufacturer;
+    static TextView textViewBrand;
+    static TextView textViewModel;
+    static TextView textViewPhoneType;
+    static TextView textViewImei;
 
-    TextView textViewOSVersion;
-    TextView textViewBattery;
+    static TextView textViewOSVersion;
+    static TextView textViewBattery;
 
-    TextView textViewLatitude;
-    TextView textViewLongitude;
+    static TextView textViewLatitude;
+    static TextView textViewLongitude;
 
 
     public static FragmentDevice newInstance() {

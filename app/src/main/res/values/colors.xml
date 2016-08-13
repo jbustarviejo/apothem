@@ -8,5 +8,12 @@
     <!--Fragments common dimmens-->
     <color name="backgroundGray">#cccccc</color>
     <color name="titleColor">#444</color>
+    <color name="titleColorDarker">#333</color>
 
+    <!--Signal colors-->
+    <color name="signal4">#59CF32</color>
+    <color name="signal3">#C8D45D</color>
+    <color name="signal2">#FAF20C</color>
+    <color name="signal1">#ED5624</color>
+    <color name="signal0">#cccccc</color>
 </resources>
