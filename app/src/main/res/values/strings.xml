@@ -18,4 +18,5 @@
     <!--Speed test-->
     <string name="not_available_speed">--- bits/s</string>
     <string name="not_available_latency">--- ms</string>
+    <string name="title_activity_maps">Map</string>
 </resources>

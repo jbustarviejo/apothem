@@ -44,7 +44,12 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".LandingActivity"></activity>
+        <activity android:name=".LandingActivity" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyC4HBWHBeC4cIS5qKYlbtMKErQ_EnY0sUI" />
+
     </application>
 
 </manifest>

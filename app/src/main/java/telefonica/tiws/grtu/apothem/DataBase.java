@@ -18,7 +18,7 @@ public class DataBase {
 
     private static final String POSITION_HISTORY_TABLE_NAME = "position_history";
     private static final String SETTINGS_TABLE_NAME = "settings";
-    private static final int MAX_POSITION_HISTORY_ENTRIES=60*24;
+    private static final int MAX_POSITION_HISTORY_ENTRIES=12*24;
 
     public class LocationRecord{
         Double latitude;
@@ -89,7 +89,7 @@ public class DataBase {
         }
 
         public boolean emptyLatLong() {
-            if(latitude == 0 && longitude ==0) {
+            if(latitude==0.0 && longitude==0.0) {
                 return true;
             }
             return false;
@@ -166,7 +166,9 @@ public class DataBase {
             String line=null;
             while((line=bufferedReader.readLine())!=null){
                 LocationRecord locationRecord = new LocationRecord(line);
-                if(!locationRecord.emptyLatLong()){
+                if(!ignoreEmptyLatLong){
+                    locationRecordsList.add(locationRecord);
+                }else if(!locationRecord.emptyLatLong()){
                     locationRecordsList.add(locationRecord);
                 }
             }

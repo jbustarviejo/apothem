@@ -364,7 +364,7 @@ public class DeviceInfo {
     }
 
     public double getLongitude(){
-        return gpsTracker.getLatitude();
+        return gpsTracker.getLongitude();
     }
 
     /*CONNECTION INFO*/

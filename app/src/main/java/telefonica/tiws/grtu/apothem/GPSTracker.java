@@ -16,6 +16,9 @@ import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 
+import java.util.Calendar;
+import java.util.Date;
+
 public class GPSTracker extends Service implements LocationListener {
 
     private final Context context;
@@ -38,6 +41,8 @@ public class GPSTracker extends Service implements LocationListener {
 
     // The minimum time between updates in milliseconds
     private static final long MIN_TIME_BW_UPDATES = 1000 * 60 * 1; // 1 minute
+
+    static long ONE_MINUTE_IN_MILLIS=60000;//millisecs
 
     // Declaring a Location Manager
     protected LocationManager locationManager;
@@ -138,6 +143,9 @@ public class GPSTracker extends Service implements LocationListener {
         if(location != null){
             latitude = location.getLatitude();
         }
+        if(!isLocationUpdated()){
+            return 0;
+        }
         // return latitude
         return latitude;
     }
@@ -147,7 +155,7 @@ public class GPSTracker extends Service implements LocationListener {
      * */
     public String getLatitudeToString(){
         double latitude=this.getLatitude();
-        if(latitude==0){
+        if(latitude==0|| !isLocationUpdated()){
             return context.getResources().getString(R.string.empty);
         }
         return latitude+"";
@@ -161,6 +169,10 @@ public class GPSTracker extends Service implements LocationListener {
         if(location != null){
             longitude = location.getLongitude();
         }
+        if(!isLocationUpdated()){
+            return 0;
+        }
+
         // return longitude
         return longitude;
     }
@@ -170,7 +182,7 @@ public class GPSTracker extends Service implements LocationListener {
      * */
     public String getLongitudeToString(){
         double longitude=this.getLongitude();
-        if(longitude==0){
+        if(longitude==0|| !isLocationUpdated()){
             return context.getResources().getString(R.string.empty);
         }
         return longitude+"";
@@ -224,6 +236,16 @@ public class GPSTracker extends Service implements LocationListener {
         alertDialog.show();
     }
 
+    public static boolean isLocationUpdated(){
+        Calendar date = Calendar.getInstance();
+        long t= date.getTimeInMillis();
+        Date afterSubsMins=new Date(t - (7 * ONE_MINUTE_IN_MILLIS));
+
+        if(location.getTime() > afterSubsMins.getTime()) {
+            return true;
+        }
+        return false;
+    }
 
     @Override
     public void onLocationChanged(Location location) {
