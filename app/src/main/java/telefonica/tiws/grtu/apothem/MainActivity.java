@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
            checkPermissions();
         }
 
-        drawFragment(R.id.nav_network);
+        drawFragment(R.id.nav_calls);
         //drawFragment(R.id.nav_connection);
     }
 

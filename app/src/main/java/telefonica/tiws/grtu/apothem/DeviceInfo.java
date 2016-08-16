@@ -5,12 +5,15 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.BatteryManager;
 import android.os.Build;
+import android.provider.CallLog;
 import android.telephony.CellIdentityCdma;
 import android.telephony.CellIdentityGsm;
 import android.telephony.CellIdentityLte;
@@ -38,8 +41,10 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
 
@@ -935,4 +940,205 @@ public class DeviceInfo {
         boolean enoughInfo=true;
     }
 
+    /*CALLS INFO*/
+
+    public List<Call> getCallLog() {
+
+        List<Call> callList = new ArrayList<Call>();
+
+        try {
+            @SuppressWarnings("MissingPermission") Cursor managedCursor = context.getContentResolver().query(CallLog.Calls.CONTENT_URI, null, null, null, CallLog.Calls.DATE+" DESC");
+            int number = managedCursor.getColumnIndex(CallLog.Calls.NUMBER);
+            int type = managedCursor.getColumnIndex(CallLog.Calls.TYPE);
+            int date = managedCursor.getColumnIndex(CallLog.Calls.DATE);
+            int duration = managedCursor.getColumnIndex(CallLog.Calls.DURATION);
+            int call_count = 0;
+            while (managedCursor.moveToNext() && call_count < 10) {
+                String phoneNumber = managedCursor.getString(number);
+                String callType = managedCursor.getString(type);
+                String callDate = managedCursor.getString(date);
+                Date callDayTime = new Date(Long.valueOf(callDate));
+                String callDuration = managedCursor.getString(duration);
+                String type_s = "";
+                int dircode = Integer.parseInt(callType);
+                switch (dircode) {
+                    case CallLog.Calls.OUTGOING_TYPE:
+                        type_s = "Enviada";
+                        break;
+
+                    case CallLog.Calls.INCOMING_TYPE:
+                        type_s = "Recibida";
+                        break;
+
+                    case CallLog.Calls.MISSED_TYPE:
+                        type_s = "Perdida";
+                        break;
+                }
+                Call call = new Call(++call_count, phoneNumber, callDayTime, type_s, callDuration);
+                callList.add(call);
+            }
+            managedCursor.close();
+            return callList;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public List<SMS> getSmsLog() {
+        final String MESSAGE_TYPE_ALL = "0";
+        final String MESSAGE_TYPE_INBOX = "1";
+        final String MESSAGE_TYPE_SENT = "2";
+        final String MESSAGE_TYPE_DRAFT = "3";
+        final String MESSAGE_TYPE_OUTBOX = "4";
+        final String MESSAGE_TYPE_FAILED = "5"; // for failed outgoing messages
+        final String MESSAGE_TYPE_QUEUED = "6"; // for messages to send later
+
+        List<SMS> smsList = new ArrayList<SMS>();
+
+        try {
+            Uri uriSMSURI = Uri.parse("content://sms");
+            Cursor cur = context.getContentResolver().query(uriSMSURI, null, null, null, null);
+            int sms_count = 0;
+
+            while (cur.moveToNext() && sms_count < 10) {
+                String address = cur.getString(cur.getColumnIndex("address"));
+                String body = cur.getString(cur.getColumnIndexOrThrow("body"));
+                String read = cur.getString(cur.getColumnIndexOrThrow("read"));
+                if (read.equals("1")) {
+                    read = "Leído";
+                } else {
+                    read = "No leído";
+                }
+                String date = cur.getString(cur.getColumnIndexOrThrow("date"));
+                Date callDayTime = new Date(Long.valueOf(date));
+                String type = cur.getString(cur.getColumnIndexOrThrow("type"));
+                String sms_type = context.getResources().getString(R.string.empty);
+                switch (type) {
+                    case MESSAGE_TYPE_INBOX:
+                        sms_type = "Recibido";
+                        break;
+                    case MESSAGE_TYPE_SENT:
+                        sms_type = "Enviado";
+                        break;
+                    case MESSAGE_TYPE_DRAFT:
+                        sms_type = "Borrador";
+                        break;
+                    case MESSAGE_TYPE_OUTBOX:
+                        sms_type = "Saliente";
+                        break;
+                    case MESSAGE_TYPE_FAILED:
+                        sms_type = "Fallido";
+                        break;
+                    case MESSAGE_TYPE_QUEUED:
+                        sms_type = "Encolado";
+                        break;
+                }
+                SMS sms = new SMS(++sms_count, address, read, callDayTime, sms_type, body.length());
+                smsList.add(sms);
+                //sms+="SMS #"+(++sms_count)+":\nNumber: " + address+"\nREAD: "+read+"\nDate: "+callDayTime+"\nType: "+sms_type+"\n\n";
+
+            }
+            cur.close();
+            return smsList;
+        } catch (Exception e) {
+            return null;
+        }
+
+    }
+
+    public class SMS {
+        int sms_count = 0;
+        String number = "";
+        String read;
+        Date date;
+        String type;
+        int numChars;
+
+        public SMS(int sms_count, String number, String read, Date date, String type, int numChars) {
+            this.sms_count = sms_count;
+            this.number = number;
+            this.read = read;
+            this.date = date;
+            this.type = type;
+            this.numChars=numChars;
+        }
+
+        public String getNumber(){
+            return number;
+        }
+
+        public String getNumberCodified(){
+            try{
+                String subNumber = number.substring(0,number.length()-5);
+                if(subNumber==""){
+                    return number;
+                }
+                return subNumber+"XXXXX";
+            }catch(Exception e){
+                return number;
+            }
+        }
+
+        public String getDateWithFormat() {
+            SimpleDateFormat sdfDate = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+            String strDate = sdfDate.format(date);
+            return strDate;
+        }
+
+    }
+
+    public class Call {
+        int call_count = 0;
+        String number = "";
+        Date date;
+        String type;
+        String callDuration;
+
+        public Call(int call_count, String number, Date date, String type, String callDuration) {
+            this.call_count = call_count;
+            this.number = number;
+            this.callDuration = callDuration;
+            this.date = date;
+            this.type = type;
+        }
+
+        public String getDateWithFormat() {
+            SimpleDateFormat sdfDate = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+            String strDate = sdfDate.format(date);
+            return strDate;
+        }
+
+        public String getNumber(){
+            return number;
+        }
+
+        public String getNumberCodified(){
+            try{
+                String subNumber = number.substring(0,number.length()-5);
+                if(subNumber==""){
+                    return number;
+                }
+                return subNumber+"XXXXX";
+            }catch(Exception e){
+                return number;
+            }
+        }
+
+        public String getCallDurationWithFormat() {
+            try {
+                int secs = Integer.parseInt(callDuration);
+                int minutes = secs / 60;
+                if(minutes==0){
+                    return callDuration+" segs";
+                }
+                secs = secs - (minutes*60);
+                if(secs>0){
+                    return minutes+" mins "+ secs+" segs";
+                }
+                return minutes+" mins";
+            }catch (Exception e){
+                return callDuration+" segs";
+            }
+        }
+    }
 }

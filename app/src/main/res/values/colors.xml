@@ -16,4 +16,9 @@
     <color name="signal2">#FAF20C</color>
     <color name="signal1">#ED5624</color>
     <color name="signal0">#cccccc</color>
+
+    <!--Call colors-->
+    <color name="callReceived">#99d</color>
+    <color name="callMade">#59CF32</color>
+    <color name="callMissing">#ED5624</color>
 </resources>

@@ -1,0 +1,42 @@
+<!--White Box-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_marginBottom="5dp"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_centerHorizontal="true"
+        android:paddingLeft="20px"
+        android:layout_marginTop="10dp"
+        android:paddingRight="20px">
+
+            <ImageView
+                android:layout_width="23dp"
+                android:layout_height="23dp"
+                android:tint="@color/callMade"
+                android:src="@drawable/ic_call_made"
+                android:id="@+id/iconCall"/>
+            <TextView
+                android:textStyle="bold"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:textSize="17dp"
+                android:layout_marginLeft="50px"
+                android:text="@string/empty"
+                android:id="@+id/callText"/>
+            <TextView
+                android:textColor="#888"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:layout_marginTop="23dp"
+                android:layout_marginLeft="50px"
+                android:text="@string/empty"
+                android:id="@+id/callDate"/>
+
+    </RelativeLayout>
+</RelativeLayout>
