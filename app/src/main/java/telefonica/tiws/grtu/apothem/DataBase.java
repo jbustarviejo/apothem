@@ -97,10 +97,12 @@ public class DataBase {
     }
 
     public class SettingsRecord{
-        boolean hasInitApp;
+        boolean hasInitApp=false;
+        boolean rateCalls=true;
 
-        SettingsRecord(boolean hasInitApp){
+        SettingsRecord(boolean hasInitApp,boolean rateCalls){
             this.hasInitApp=hasInitApp;
+            this.rateCalls=rateCalls;
         }
 
         SettingsRecord(String json){
@@ -108,6 +110,7 @@ public class DataBase {
             try {
                 jObject = new JSONObject(json);
                 hasInitApp = Boolean.parseBoolean(jObject.getString("hasInitApp"));
+                rateCalls = Boolean.parseBoolean(jObject.getString("rateCalls"));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -117,6 +120,7 @@ public class DataBase {
             JSONObject jsonObject= new JSONObject();
             try {
                 jsonObject.put("hasInitApp", hasInitApp);
+                jsonObject.put("rateCalls", rateCalls);
                 return jsonObject.toString();
             } catch (JSONException e) {
                 // TODO Auto-generated catch block
@@ -153,7 +157,7 @@ public class DataBase {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return new SettingsRecord(false);
+        return new SettingsRecord(false,true);
     }
 
     public List<LocationRecord> getPositionsHistory(Context context, boolean ignoreEmptyLatLong){
