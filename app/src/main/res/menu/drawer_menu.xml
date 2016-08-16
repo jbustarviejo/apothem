@@ -3,13 +3,13 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_connection"
-            android:icon="@drawable/ic_network_check"
-            android:title="Conexión" />
-        <item
             android:id="@+id/nav_device"
             android:icon="@drawable/ic_phone"
             android:title="Terminal" />
+        <item
+            android:id="@+id/nav_connection"
+            android:icon="@drawable/ic_network_check"
+            android:title="Conexión" />
         <item
             android:id="@+id/nav_sim"
             android:icon="@drawable/ic_sim"

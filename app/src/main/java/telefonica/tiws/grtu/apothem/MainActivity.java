@@ -81,8 +81,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
            checkPermissions();
         }
 
-        drawFragment(R.id.nav_calls);
-        //drawFragment(R.id.nav_connection);
+        drawFragment(R.id.nav_device);
     }
 
     private void startBackgroundService(){
@@ -148,9 +147,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         Fragment fragment;
 
-        if (id == R.id.nav_device) {
+        if (id == R.id.nav_connection) {
             navigationView.getMenu().getItem(1).setChecked(true);
-            fragment = new FragmentDevice();
+            fragment = new FragmentConnection();
         } else if (id == R.id.nav_sim) {
             navigationView.getMenu().getItem(2).setChecked(true);
             fragment = new FragmentSim();
@@ -168,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             fragment = new FragmentSettings();
         } else{
             navigationView.getMenu().getItem(0).setChecked(true);
-            fragment = new FragmentConnection();
+            fragment = new FragmentDevice();
         }
 
         // Insert the fragment by replacing any existing fragment
