@@ -14,6 +14,7 @@ import android.os.SystemClock;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -22,6 +23,10 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -41,6 +46,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         DataBase.SettingsRecord settingsRecord = dataBase.getSettings(thisActivity);
         //settingsRecord.hasInitApp=false; //DELETE THIS<=============
+
+        List<DataBase.CallsRateRecord> getCallsRateRecords = dataBase.getCallsRateRecords(thisActivity);
 
         //Start storage of data in background
         startBackgroundService();

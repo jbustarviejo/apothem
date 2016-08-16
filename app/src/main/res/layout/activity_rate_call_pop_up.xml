@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content"
+    android:background="@drawable/background_border_radius"
+    android:layout_centerHorizontal="true">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Valora la calidad de la llamada"
+            android:textSize="19dp"
+            android:id="@+id/textViewTitle"
+            android:layout_gravity="center_horizontal|top"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="La última llamada recibida"
+            android:layout_gravity="center_horizontal|top"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/textViewTitle"
+            android:id="@+id/textViewNumber"/>
+        <RatingBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ratingBar"
+            android:layout_gravity="center_horizontal|top"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/textViewNumber"
+            android:progressTint="@color/telefonicaColorLight"
+            android:numStars="5"
+            android:rating="5" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Valorar"
+            android:id="@+id/rateCallButton"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_marginTop="35dp"
+            android:layout_below="@+id/ratingBar"
+            android:layout_centerHorizontal="true" />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No volver a preguntar"
+            android:id="@+id/checkBoxDontShowAgain"
+            android:checked="false"
+            android:textColor="#666"
+            android:layout_below="@+id/ratingBar"
+            android:layout_centerHorizontal="true" />
+
+    </RelativeLayout>
+</FrameLayout>

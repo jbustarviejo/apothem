@@ -18,6 +18,7 @@ public class DataBase {
 
     private static final String POSITION_HISTORY_TABLE_NAME = "position_history";
     private static final String SETTINGS_TABLE_NAME = "settings";
+    private static final String CALLS_TABLE_NAME = "calls";
     private static final int MAX_POSITION_HISTORY_ENTRIES=12*24;
 
     public class LocationRecord{
@@ -160,6 +161,77 @@ public class DataBase {
         return new SettingsRecord(false,true);
     }
 
+    public class CallsRateRecord{
+        String number;
+        float rate;
+        Date startAt;
+
+        CallsRateRecord(String number, Date startAt,float rate){
+            this.number=number;
+            this.rate=rate;
+            this.startAt=startAt;
+        }
+
+        CallsRateRecord(String json){
+            JSONObject jObject = null;
+            try {
+                jObject = new JSONObject(json);
+                number = jObject.getString("number");
+                rate = Float.parseFloat(jObject.getString("rate"));
+                startAt = new Date(jObject.getString("startAt"));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        public String toJSON(){
+            JSONObject jsonObject= new JSONObject();
+            try {
+                jsonObject.put("number", number);
+                jsonObject.put("rate", rate);
+                jsonObject.put("startAt", startAt);
+                return jsonObject.toString();
+            } catch (JSONException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                return "";
+            }
+        }
+
+        public void save(Context context){
+
+            List<CallsRateRecord> callsRateRecordList = getCallsRateRecords(context);
+            callsRateRecordList.add(this);
+
+            int listLength=callsRateRecordList.size();
+
+            if(listLength>MAX_POSITION_HISTORY_ENTRIES){
+                callsRateRecordList=callsRateRecordList.subList(listLength-MAX_POSITION_HISTORY_ENTRIES,listLength);
+            }
+
+            FileOutputStream fos = null;
+            try {
+                fos = context.openFileOutput(CALLS_TABLE_NAME, Context.MODE_PRIVATE);
+                for(int i=0;i<callsRateRecordList.size();i++) {
+                    CallsRateRecord callsRateRecord = callsRateRecordList.get(i);
+                    String jsonRecord=callsRateRecord.toJSON()+"\n";
+                    fos.write(jsonRecord.getBytes());
+                }
+                fos.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        public boolean isEmptyRateOrDate(){
+            if(rate==0 && startAt==null){
+             return true;
+            }
+            return false;
+        }
+
+    }
+
     public List<LocationRecord> getPositionsHistory(Context context, boolean ignoreEmptyLatLong){
         List<LocationRecord> locationRecordsList = new ArrayList<LocationRecord>();
         try {
@@ -184,10 +256,41 @@ public class DataBase {
         return locationRecordsList;
     }
 
+    public List<CallsRateRecord> getCallsRateRecords(Context context){
+        List<CallsRateRecord> callsRateRecords = new ArrayList<CallsRateRecord>();
+        try {
+            FileInputStream fis = context.openFileInput(CALLS_TABLE_NAME);
+            InputStreamReader isr = new InputStreamReader(fis);
+            BufferedReader bufferedReader = new BufferedReader(isr);
+
+            String line=null;
+            while((line=bufferedReader.readLine())!=null){
+                CallsRateRecord callsRateRecord = new CallsRateRecord(line);
+                if(!callsRateRecord.isEmptyRateOrDate()){
+                    callsRateRecords.add(callsRateRecord);
+                }
+            }
+            fis.close();
+            return callsRateRecords;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return callsRateRecords;
+    }
+
     public void storeLocationData(Context context, DeviceInfo deviceInfo){
         try {
             LocationRecord locationRecord = new LocationRecord(deviceInfo);
             locationRecord.save(context);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void storeCallRate(Context context, String number, Date startAt, float rate){
+        try {
+            CallsRateRecord callsRateRecord = new CallsRateRecord(number, startAt, rate);
+            callsRateRecord.save(context);
         }catch (Exception e){
             e.printStackTrace();
         }
