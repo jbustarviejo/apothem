@@ -3,6 +3,7 @@ package telefonica.tiws.grtu.apothem;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.ProgressDialog;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -52,6 +53,9 @@ public class FragmentLocation extends Fragment {
             public void onMapReady(GoogleMap googleMap) {
                 mMap = googleMap;
 
+                //Disable directions
+                mMap.getUiSettings().setMapToolbarEnabled(false);
+
                 //Get pointers
                 DataBase dataBase = new DataBase();
                 List<DataBase.LocationRecord> locationRecordList =  dataBase.getPositionsHistory(getActivity(), true);
@@ -72,15 +76,32 @@ public class FragmentLocation extends Fragment {
                     Log.d("Marker",locationRecord.toJSON());
                     lastPosition=position;
                     position = new LatLng(locationRecord.latitude, locationRecord.longitude);
-                    if(position.equals(lastPosition)) {
+                    if(position.equals(lastPosition) && count>1) {
                         Log.d("Marker","Skipped previous");
                         if(previousMarker!=null){
                             previousMarker.remove();
                         }
                     }
-                    previousMarker=mMap.addMarker(new MarkerOptions().position(position).title("Marcador "+(count++)).snippet(locationRecord.getDate()));
-                    builder.include(position);
-                    rectOptions.add(position);
+                    if(lastPosition!=null) {
+                        //Calculate if are very near
+                        Location loc1 = new Location("");
+                        loc1.setLatitude(position.latitude);
+                        loc1.setLongitude(position.longitude);
+
+                        Location loc2 = new Location("");
+                        loc2.setLatitude(lastPosition.latitude);
+                        loc2.setLongitude(lastPosition.longitude);
+
+                        float distanceInMeters = loc1.distanceTo(loc2);
+
+                        if (distanceInMeters < 30 && count>1) {
+                            Log.d("Marker", "Skipped previous for distance=" + distanceInMeters);
+                        }else {
+                            previousMarker = mMap.addMarker(new MarkerOptions().position(position).title("Marcador " + (count++)).snippet(locationRecord.getDate()));
+                            builder.include(position);
+                            rectOptions.add(position);
+                        }
+                    }
                 }
 
                 if(position!=null){

@@ -132,6 +132,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     public void drawFragment(int id){
+
+        if (id == R.id.nav_email) {
+            Intent intent = new Intent(thisActivity, EmailActivity.class);
+            startActivity(intent);
+            return;
+        }
+
         Fragment fragment;
 
         if (id == R.id.nav_device) {
@@ -152,9 +159,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_settings) {
             navigationView.getMenu().getItem(6).setChecked(true);
             fragment = new FragmentSettings();
-        } else if (id == R.id.nav_email) {
-            navigationView.getMenu().getItem(7).setChecked(true);
-            fragment = new FragmentEmail();
         } else{
             navigationView.getMenu().getItem(0).setChecked(true);
             fragment = new FragmentConnection();
