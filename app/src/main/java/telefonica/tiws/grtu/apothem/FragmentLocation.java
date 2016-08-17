@@ -60,58 +60,46 @@ public class FragmentLocation extends Fragment {
                 DataBase dataBase = new DataBase();
                 List<DataBase.LocationRecord> locationRecordList =  dataBase.getPositionsHistory(getActivity(), true);
 
-                LatLng position = null;
-                LatLng lastPosition = null;
-                Marker previousMarker=null;
+               // LatLng position = null;
+             //   LatLng lastPosition = null;
+               // Marker previousMarker=null;
 
                 PolylineOptions rectOptions = new PolylineOptions();
-                //this is the color of route
                 rectOptions.color(getActivity().getResources().getColor(R.color.telefonicaColorLight));
 
                 LatLngBounds.Builder builder = new LatLngBounds.Builder();
 
-                int count=1;
-                for(int i=0; i<locationRecordList.size(); i++){
-                    DataBase.LocationRecord locationRecord = locationRecordList.get(i);
-                    Log.d("Marker",locationRecord.toJSON());
-                    lastPosition=position;
-                    position = new LatLng(locationRecord.latitude, locationRecord.longitude);
+                int locationRecordSize = locationRecordList.size();
 
-                    if(position.equals(lastPosition) && count>1) {
-                        Log.d("Marker","Skipped previous");
-                        if(previousMarker!=null){
-                            previousMarker.remove();
+                for(int i=0; i<locationRecordSize; i++){
+                    DataBase.LocationRecord locationRecord = locationRecordList.get(i);
+                    Log.d("Marker: ",locationRecord.toJSON());
+
+
+                    LatLng position = new LatLng(locationRecord.latitude, locationRecord.longitude);
+
+                    if(i<locationRecordSize-1) {
+                        DataBase.LocationRecord nextLocationRecord = locationRecordList.get(i + 1);
+                        LatLng nextPosition = new LatLng(nextLocationRecord.latitude, nextLocationRecord.longitude);
+
+
+                        if (position.equals(nextPosition) && nextPosition != null) {
+                            Log.d("Marker", "Skipped this point");
                             continue;
                         }
+
+                        mMap.addMarker(new MarkerOptions().position(position).title(locationRecord.getDate()).snippet(locationRecord.stationInfo.type + ": " + locationRecord.stationInfo.power + " (" + locationRecord.stationInfo.signal + "/4)"));
+                        builder.include(position);
+                        rectOptions.add(position);
+                    }else{
+                        mMap.addMarker(new MarkerOptions().position(position).title(locationRecord.getDate()).snippet(locationRecord.stationInfo.type + ": " + locationRecord.stationInfo.power + " (" + locationRecord.stationInfo.signal + "/4)"));
+                        builder.include(position);
+                        rectOptions.add(position);
                     }
 
-                    /*if(lastPosition!=null) {
-                        //Calculate if are very near
-                        Location loc1 = new Location("");
-                        loc1.setLatitude(position.latitude);
-                        loc1.setLongitude(position.longitude);
+                }//End for
 
-                        Location loc2 = new Location("");
-                        loc2.setLatitude(lastPosition.latitude);
-                        loc2.setLongitude(lastPosition.longitude);
-
-                        float distanceInMeters = loc1.distanceTo(loc2);
-
-                        if (distanceInMeters < 30 && count>1) {
-                            Log.d("Marker", "Skipped previous for distance=" + distanceInMeters);
-                        }else {
-                            previousMarker = mMap.addMarker(new MarkerOptions().position(position).title(locationRecord.getDate()).snippet(locationRecord.stationInfo.type+locationRecord.stationInfo.power)));
-                            builder.include(position);
-                            rectOptions.add(position);
-                        }
-                    }*/
-
-                    previousMarker = mMap.addMarker(new MarkerOptions().position(position).title(locationRecord.getDate()).snippet(locationRecord.stationInfo.type+": "+locationRecord.stationInfo.power+" ("+locationRecord.stationInfo.signal+"/4)"));
-                    builder.include(position);
-                    rectOptions.add(position);
-                }
-
-                if(position!=null){
+                if(locationRecordSize>0){
                     try {
                         latLngBounds = builder.build();
                         mMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
