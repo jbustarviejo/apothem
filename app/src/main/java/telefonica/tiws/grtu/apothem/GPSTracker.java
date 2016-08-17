@@ -38,18 +38,15 @@ public class GPSTracker extends Service implements LocationListener {
 
     // The minimum distance to change Updates in meters
     private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10; // 10 meters
-
     // The minimum time between updates in milliseconds
     private static final long MIN_TIME_BW_UPDATES = 1000 * 60 * 1; // 1 minute
-
-    static long ONE_MINUTE_IN_MILLIS=60000;//millisecs
 
     // Declaring a Location Manager
     protected LocationManager locationManager;
 
     public GPSTracker(Context context) {
         this.context = context;
-        getLocation();
+        location = getLocation();
     }
 
     public Location getLocation() {
@@ -143,9 +140,6 @@ public class GPSTracker extends Service implements LocationListener {
         if(location != null){
             latitude = location.getLatitude();
         }
-        if(!isLocationUpdated()){
-            return 0;
-        }
         // return latitude
         return latitude;
     }
@@ -155,7 +149,7 @@ public class GPSTracker extends Service implements LocationListener {
      * */
     public String getLatitudeToString(){
         double latitude=this.getLatitude();
-        if(latitude==0|| !isLocationUpdated()){
+        if(latitude==0){
             return context.getResources().getString(R.string.empty);
         }
         return latitude+"";
@@ -169,10 +163,6 @@ public class GPSTracker extends Service implements LocationListener {
         if(location != null){
             longitude = location.getLongitude();
         }
-        if(!isLocationUpdated()){
-            return 0;
-        }
-
         // return longitude
         return longitude;
     }
@@ -182,10 +172,23 @@ public class GPSTracker extends Service implements LocationListener {
      * */
     public String getLongitudeToString(){
         double longitude=this.getLongitude();
-        if(longitude==0|| !isLocationUpdated()){
+        if(longitude==0){
             return context.getResources().getString(R.string.empty);
         }
         return longitude+"";
+    }
+
+    /**
+     * Function to get accuracy
+     * */
+    public String getAccuracy(){
+        if(location != null){
+            double accuracy=location.getAccuracy();
+            if(accuracy!=0.0){
+                return Math.round(accuracy)+" m";
+            }
+        }
+        return context.getResources().getString(R.string.empty);
     }
 
     /**
@@ -236,20 +239,30 @@ public class GPSTracker extends Service implements LocationListener {
         alertDialog.show();
     }
 
-    public static boolean isLocationUpdated(){
+    /*
+        static long ONE_MINUTE_IN_MILLIS=60000;//millisecs
+
+        public boolean isLocationUpdated(){
         Calendar date = Calendar.getInstance();
         long t= date.getTimeInMillis();
         Date afterSubsMins=new Date(t - (7 * ONE_MINUTE_IN_MILLIS));
-
         if(location.getTime() > afterSubsMins.getTime()) {
             return true;
         }
+        location = getLocation();
         return false;
-    }
+    }*/
 
     @Override
     public void onLocationChanged(Location location) {
         Log.d("GPSTrackerInfo","Updated Location");
+        try {
+            if (location != null) {
+                latitude = location.getLatitude();
+                longitude = location.getLongitude();
+            }
+        }catch (SecurityException se){
+        }
     }
 
 

@@ -6,6 +6,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
@@ -90,7 +91,7 @@ public class DataBase {
         }
 
         public boolean emptyLatLong() {
-            if(latitude==0.0 && longitude==0.0) {
+            if((latitude==null || latitude==0.0) && (longitude==null || longitude==0.0)) {
                 return true;
             }
             return false;
@@ -276,6 +277,16 @@ public class DataBase {
             e.printStackTrace();
         }
         return callsRateRecords;
+    }
+
+    public void deleteAllTables(Context context){
+        File file;
+        file = new File(context.getFilesDir(), CALLS_TABLE_NAME);
+        file.delete();
+        file = new File(context.getFilesDir(), POSITION_HISTORY_TABLE_NAME);
+        file.delete();
+        file = new File(context.getFilesDir(), SETTINGS_TABLE_NAME);
+        file.delete();
     }
 
     public void storeLocationData(Context context, DeviceInfo deviceInfo){

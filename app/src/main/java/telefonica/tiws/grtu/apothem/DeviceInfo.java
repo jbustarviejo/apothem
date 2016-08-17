@@ -367,6 +367,10 @@ public class DeviceInfo {
         return gpsTracker.getLongitude();
     }
 
+    public String getAccuracy(){
+        return gpsTracker.getAccuracy();
+    }
+
     /*CONNECTION INFO*/
 
     public String getNetworkType() {

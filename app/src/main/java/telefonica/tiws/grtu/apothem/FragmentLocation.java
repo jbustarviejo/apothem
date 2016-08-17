@@ -102,6 +102,11 @@ public class FragmentLocation extends Fragment {
                             rectOptions.add(position);
                         }
                     }
+                    if(count==1){
+                        previousMarker = mMap.addMarker(new MarkerOptions().position(position).title("Marcador " + (count++)).snippet(locationRecord.getDate()));
+                        builder.include(position);
+                        rectOptions.add(position);
+                    }
                 }
 
                 if(position!=null){

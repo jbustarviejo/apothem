@@ -364,6 +364,29 @@
                         android:id="@+id/locationText2"/>
                 </RelativeLayout>
 
+                <!--Info element-->
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/info_element_padding"
+                    android:layout_marginTop="@dimen/info_element_margin_top"
+                    android:layout_below="@+id/relativeLayoutLocation2"
+                    android:id="@+id/relativeLayoutLocation3">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="Precisión" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/empty"
+                        android:layout_alignParentRight="true"
+                        android:id="@+id/locationText3"/>
+                </RelativeLayout>
+
             </RelativeLayout>
             <!--End info container-->
         </RelativeLayout>
