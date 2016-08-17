@@ -66,7 +66,7 @@ public class FragmentNetwork extends Fragment {
     public void updateStationNetwork(){
         stationsContainerLayout.removeAllViews();
 
-        List<DeviceInfo.StationInfo> stationInfoList = deviceInfo.getAllCellsInfo();
+        List<StationInfo> stationInfoList = deviceInfo.getAllCellsInfo();
         int neighbour=1;
 
         if(stationInfoList==null || stationInfoList.size()==0){
@@ -79,7 +79,7 @@ public class FragmentNetwork extends Fragment {
             stationsContainerLayout.addView(textViewTitle);
             stationsContainerLayout.addView(textViewSubtitle);
         }else{
-            for(DeviceInfo.StationInfo stationInfo : stationInfoList) {
+            for(StationInfo stationInfo : stationInfoList) {
                 LayoutInflater li = thisActivity.getLayoutInflater();
                 View netWorkInfoBox= li.inflate(R.layout.fragment_stations, null);
 

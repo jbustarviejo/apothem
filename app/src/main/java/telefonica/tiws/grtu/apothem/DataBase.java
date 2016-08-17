@@ -27,10 +27,13 @@ public class DataBase {
         Double longitude;
         Date date;
 
+        StationInfo stationInfo;
+
         LocationRecord(DeviceInfo deviceInfo){
             latitude = deviceInfo.getLatitude();
             longitude = deviceInfo.getLongitude();
             date = new Date();
+            stationInfo = deviceInfo.getRegisteredCellInfo();
         }
 
         LocationRecord(String json){
@@ -40,6 +43,7 @@ public class DataBase {
                 latitude = Double.parseDouble(jObject.getString("latitude"));
                 longitude = Double.parseDouble(jObject.getString("longitude"));
                 date = new Date(jObject.getString("date"));
+                stationInfo = new StationInfo(jObject.getString("stationInfo"));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -56,6 +60,7 @@ public class DataBase {
                 jsonObject.put("latitude", latitude);
                 jsonObject.put("longitude", longitude);
                 jsonObject.put("date", date);
+                jsonObject.put("stationInfo", stationInfo.toJSON());
                 return jsonObject.toString();
             } catch (JSONException e) {
                 // TODO Auto-generated catch block

@@ -932,16 +932,19 @@ public class DeviceInfo {
         }
     }
 
-    public class StationInfo{
-        String type ="---";
-        boolean isRegistered = false;
-        String mnc="---";
-        String mcc="---";
-        String id_cell="---";
-        String area_code="---";
-        String power="---";
-        int signal=0;
-        boolean enoughInfo=true;
+    public StationInfo getRegisteredCellInfo() {
+        List<StationInfo> stationInfoList = getAllCellsInfo();
+        if(stationInfoList==null){
+            return new StationInfo();
+        }
+        StationInfo stationInfo = stationInfoList.get(0);
+        if(stationInfo==null){
+            return new StationInfo();
+        }
+        if(!stationInfo.isRegistered){
+            return new StationInfo();
+        }
+        return stationInfo;
     }
 
     /*CALLS INFO*/
