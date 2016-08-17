@@ -76,13 +76,16 @@ public class FragmentLocation extends Fragment {
                     Log.d("Marker",locationRecord.toJSON());
                     lastPosition=position;
                     position = new LatLng(locationRecord.latitude, locationRecord.longitude);
+
                     if(position.equals(lastPosition) && count>1) {
                         Log.d("Marker","Skipped previous");
                         if(previousMarker!=null){
                             previousMarker.remove();
+                            continue;
                         }
                     }
-                    if(lastPosition!=null) {
+
+                    /*if(lastPosition!=null) {
                         //Calculate if are very near
                         Location loc1 = new Location("");
                         loc1.setLatitude(position.latitude);
@@ -97,16 +100,15 @@ public class FragmentLocation extends Fragment {
                         if (distanceInMeters < 30 && count>1) {
                             Log.d("Marker", "Skipped previous for distance=" + distanceInMeters);
                         }else {
-                            previousMarker = mMap.addMarker(new MarkerOptions().position(position).title("Marcador " + (count++)).snippet(locationRecord.getDate()));
+                            previousMarker = mMap.addMarker(new MarkerOptions().position(position).title(locationRecord.getDate()).snippet(locationRecord.stationInfo.type+locationRecord.stationInfo.power)));
                             builder.include(position);
                             rectOptions.add(position);
                         }
-                    }
-                    if(count==1){
-                        previousMarker = mMap.addMarker(new MarkerOptions().position(position).title("Marcador " + (count++)).snippet(locationRecord.getDate()));
-                        builder.include(position);
-                        rectOptions.add(position);
-                    }
+                    }*/
+
+                    previousMarker = mMap.addMarker(new MarkerOptions().position(position).title(locationRecord.getDate()).snippet(locationRecord.stationInfo.type+": "+locationRecord.stationInfo.power+" ("+locationRecord.stationInfo.signal+"/4)"));
+                    builder.include(position);
+                    rectOptions.add(position);
                 }
 
                 if(position!=null){
@@ -119,11 +121,11 @@ public class FragmentLocation extends Fragment {
                                 progressDialog.hide();
                             }
                         });
+                        mMap.addPolyline(rectOptions);
                     }catch (Exception e){
                         e.printStackTrace();
                         progressDialog.hide();
                     }
-                    mMap.addPolyline(rectOptions);
                 }else{
                     progressDialog.hide();
                     new AlertDialog.Builder(getActivity())
