@@ -11,6 +11,7 @@ public class RunOnStartupReceiver extends  BroadcastReceiver {
         if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)) {
             Intent i = new Intent(context, MainActivity.class);
             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            i.putExtra("dontInitScreen",true);
             context.startActivity(i);
         }
     }

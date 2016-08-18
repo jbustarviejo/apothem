@@ -39,16 +39,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         thisActivity=this;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Intent intent = new Intent(thisActivity, LandingActivity.class);
 
         dataBase = new DataBase();
-
         DataBase.SettingsRecord settingsRecord = dataBase.getSettings(thisActivity);
         //settingsRecord.hasInitApp=false; //DELETE THIS<=============
 
-        List<DataBase.CallsRateRecord> getCallsRateRecords = dataBase.getCallsRateRecords(thisActivity);
-
         //Start storage of data in background
         startBackgroundService();
+
+        //Show the main screen?
+        try {
+            Boolean dontInit = intent.getBooleanExtra("dontInitScreen",false);
+            if(dontInit){
+                return;
+            }
+        }catch (Exception e){}
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -73,7 +79,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if(!settingsRecord.hasInitApp){
             settingsRecord.hasInitApp=true;
             settingsRecord.save(thisActivity);
-            Intent intent = new Intent(thisActivity, LandingActivity.class);
             startActivityForResult(intent, FINISH_LANDING);
         }else {
            checkPermissions();
