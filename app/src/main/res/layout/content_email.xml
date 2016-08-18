@@ -71,6 +71,69 @@
             android:layout_alignRight="@+id/supportDescriptionText"
             android:layout_alignEnd="@+id/supportDescriptionText" />
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/sendEmailButton"
+            android:id="@+id/relativeLayoutFiles"
+            android:layout_alignParentStart="false"
+            android:layout_marginLeft="5dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Archivos que se adjuntan"
+                android:id="@+id/textView4"
+                android:textColor="#666"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="Registro de posiciones"
+                android:id="@+id/positionRecords"
+                android:textColor="@color/telefonciaColorMiddle" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:text="Valoración de llamadas"
+                android:id="@+id/CallsRatingRecords"
+                android:textColor="@color/telefonciaColorMiddle" />
+
+        </RelativeLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="20px"
+            android:layout_below="@+id/relativeLayoutFiles"
+            android:id="@+id/contentFile"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="5dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Contenido del archivo"
+                    android:id="@+id/textView5"
+                    android:textColor="#666" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:textSize="10dp"
+                    android:text="Archivos que se adjuntan"
+                    android:id="@+id/fileContent"
+                    android:background="#eee"
+                    android:textColor="#666" />
+
+            </RelativeLayout>
+        </ScrollView>
     </RelativeLayout>
 
 </ScrollView>

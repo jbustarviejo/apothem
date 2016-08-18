@@ -11,12 +11,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -30,6 +34,9 @@ public class EmailActivity extends AppCompatActivity {
      */
     private GoogleApiClient client;
 
+    private boolean isOpenFileContentLocations=false;
+    private boolean isOpenFileContentCalls=false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         thisActivity = this;
@@ -37,6 +44,9 @@ public class EmailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_email);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarEmail);
         setSupportActionBar(toolbar);
+
+        ScrollView contentFile = (ScrollView) findViewById(R.id.contentFile);
+        contentFile.setAlpha(0);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -79,6 +89,61 @@ public class EmailActivity extends AppCompatActivity {
 
                 Toast.makeText(thisActivity, "Email enviado correctamente, ¡gracias!", Toast.LENGTH_LONG).show();
                 thisActivity.finish();
+            }
+        });
+
+        TextView positionRecords = (TextView) findViewById(R.id.positionRecords);
+        positionRecords.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ScrollView contentFile = (ScrollView) findViewById(R.id.contentFile);
+                if(isOpenFileContentLocations){
+                    isOpenFileContentLocations=false;
+                    contentFile.setAlpha(0);
+                    return;
+                }
+                isOpenFileContentLocations=true;
+                contentFile.setAlpha(1);
+
+                TextView fileContent = (TextView) findViewById(R.id.fileContent);
+
+                DataBase dataBase = new DataBase();
+                List<DataBase.LocationRecord> locationRecordList = dataBase.getPositionsHistory(thisActivity,false);
+                String file="";
+                for(int i=0;i<locationRecordList.size();i++){
+                    file+=locationRecordList.get(i).toJSON();
+                }
+
+                fileContent.setText(file);
+            }
+        });
+        TextView callsRatingRecords = (TextView) findViewById(R.id.CallsRatingRecords);
+        assert callsRatingRecords != null;
+        callsRatingRecords.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ScrollView contentFile = (ScrollView) findViewById(R.id.contentFile);
+                if(isOpenFileContentCalls){
+                    isOpenFileContentCalls=false;
+                    assert contentFile != null;
+                    contentFile.setAlpha(0);
+                    return;
+                }
+                isOpenFileContentCalls=true;
+                assert contentFile != null;
+                contentFile.setAlpha(1);
+
+                TextView fileContent = (TextView) findViewById(R.id.fileContent);
+
+                DataBase dataBase = new DataBase();
+                List<DataBase.CallsRateRecord> callsRateRecordList = dataBase.getCallsRateRecords(thisActivity);
+                String file="";
+                for(int i=0;i<callsRateRecordList.size();i++){
+                    file+=callsRateRecordList.get(i).toJSON();
+                }
+
+                assert fileContent != null;
+                fileContent.setText(file);
             }
         });
         // ATTENTION: This was auto-generated to implement the App Indexing API.

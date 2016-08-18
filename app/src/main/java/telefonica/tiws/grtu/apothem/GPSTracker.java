@@ -79,6 +79,7 @@ public class GPSTracker extends Service implements LocationListener {
                                 longitude = location.getLongitude();
                             }
                         }catch (SecurityException se){
+                            se.printStackTrace();
                             return location;
                         }
                     }
@@ -101,6 +102,7 @@ public class GPSTracker extends Service implements LocationListener {
                                     longitude = location.getLongitude();
                                 }
                             }catch (SecurityException se){
+                                se.printStackTrace();
                                 return location;
                             }
                         }
