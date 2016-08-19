@@ -27,6 +27,7 @@ import android.telephony.CellSignalStrengthCdma;
 import android.telephony.CellSignalStrengthGsm;
 import android.telephony.CellSignalStrengthLte;
 import android.telephony.CellSignalStrengthWcdma;
+import android.telephony.NeighboringCellInfo;
 import android.telephony.TelephonyManager;
 import android.text.format.Formatter;
 import android.util.Log;
@@ -627,28 +628,49 @@ public class DeviceInfo {
 
      /*STATIONS NETWORK*/
 
-    public List<CellInfo> getAllCellsInfoListFromSystem() {
-        try {
-            List<CellInfo> cellList = null;
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                cellList = telephonyManager.getAllCellInfo();
-            }else{
-                return null;
-            }
-            return cellList;
-        } catch (Exception e) {
+    public List<StationInfo> getAllCellsInfoOld() {
+        List<StationInfo> cellInfoContainerArrayList= new ArrayList<>();
+
+        List<NeighboringCellInfo> neighboringCellInfos = this.telephonyManager.getNeighboringCellInfo();
+
+        if(neighboringCellInfos.size()==0){
             return null;
         }
+
+        for(NeighboringCellInfo neighboringCellInfo : neighboringCellInfos) {
+            StationInfo stationInfo=new StationInfo();
+            stationInfo.type = neighboringCellInfo.getNetworkType()+"";
+            stationInfo.id_cell = neighboringCellInfo.getCid()+"";
+            int powerRssi =neighboringCellInfo.getRssi();
+            stationInfo.power = powerRssi+" dbm";
+
+            int level =0;
+            // ASU ranges from 0 to 31 - TS 27.007 Sec 8.5
+            // asu = 0 (-113dB or less) is very weak
+            // signal, its better to show 0 bars to the user in such cases.
+            // asu = 99 is a special case, where the signal strength is unknown.
+            if (powerRssi <= 2 || powerRssi == 99) level = 0;
+            else if (powerRssi >= 12) level = 4;
+            else if (powerRssi >= 8)  level = 3;
+            else if (powerRssi >= 4)  level = 2;
+            stationInfo.signal=level;
+            stationInfo.enoughInfo=true;
+            cellInfoContainerArrayList.add(stationInfo);
+        }
+        return cellInfoContainerArrayList;
     }
 
     @SuppressLint("NewApi")
     public List<StationInfo> getAllCellsInfo() {
+        if(android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            return getAllCellsInfoOld();
+        }
         try {
-            List<CellInfo> cellList = this.getAllCellsInfoListFromSystem();
+            List<CellInfo> cellList = telephonyManager.getAllCellInfo();
             if (cellList==null) {
                 return null;
             }
-            List<StationInfo> cellInfoContainerArrayList= new ArrayList<StationInfo>();
+            List<StationInfo> cellInfoContainerArrayList= new ArrayList<>();
 
             for(CellInfo cellInfo : cellList) {
 
