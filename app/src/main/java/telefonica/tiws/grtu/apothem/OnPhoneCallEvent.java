@@ -48,6 +48,7 @@ public class OnPhoneCallEvent extends AppCompatActivity {
                     //Ocioso
                     if (lastState == RINGING) {
                     }else if(lastState == OFFHOOK){
+                        lastState = IDLE;
                         //Finalizada...
                         Intent intent = new Intent(context, RateCallPopUpActivity.class);
                         intent.putExtra("number",incomingNumber);

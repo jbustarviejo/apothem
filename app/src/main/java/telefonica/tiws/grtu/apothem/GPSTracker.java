@@ -63,27 +63,6 @@ public class GPSTracker extends Service implements LocationListener {
                 // No network provider is enabled
             } else {
                 this.canGetLocation = true;
-                if (isNetworkEnabled) {
-                    try {
-                        //noinspection MissingPermission
-                        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
-                    }catch (RuntimeException rte){
-                        //Ignore
-                    }
-                    Log.d("Network", "Network");
-                    if (locationManager != null) {
-                        try {
-                            location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-                            if (location != null) {
-                                latitude = location.getLatitude();
-                                longitude = location.getLongitude();
-                            }
-                        }catch (SecurityException se){
-                            se.printStackTrace();
-                            return location;
-                        }
-                    }
-                }
                 // If GPS enabled, get latitude/longitude using GPS Services
                 if (isGPSEnabled) {
                     if (location == null) {
@@ -103,8 +82,29 @@ public class GPSTracker extends Service implements LocationListener {
                                 }
                             }catch (SecurityException se){
                                 se.printStackTrace();
+
                                 return location;
                             }
+                        }
+                    }
+                }else if (isNetworkEnabled) {
+                    try {
+                        //noinspection MissingPermission
+                        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+                    }catch (RuntimeException rte){
+                        //Ignore
+                    }
+                    Log.d("Network", "Network");
+                    if (locationManager != null) {
+                        try {
+                            location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                            if (location != null) {
+                                latitude = location.getLatitude();
+                                longitude = location.getLongitude();
+                            }
+                        }catch (SecurityException se){
+                            se.printStackTrace();
+                            return location;
                         }
                     }
                 }
