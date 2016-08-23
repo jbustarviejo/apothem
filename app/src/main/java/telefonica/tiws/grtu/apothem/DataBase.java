@@ -1,6 +1,7 @@
 package telefonica.tiws.grtu.apothem;
 
 import android.content.Context;
+import android.location.Location;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -8,6 +9,7 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
@@ -29,9 +31,14 @@ public class DataBase {
 
         StationInfo stationInfo;
 
-        LocationRecord(DeviceInfo deviceInfo){
-            latitude = deviceInfo.getLatitude();
-            longitude = deviceInfo.getLongitude();
+        LocationRecord(DeviceInfo deviceInfo, Location location){
+            if(location==null){
+                latitude=0d;
+                longitude=0d;
+            }else {
+                latitude = location.getLatitude();
+                longitude = location.getLongitude();
+            }
             date = new Date();
             stationInfo = deviceInfo.getRegisteredCellInfo();
         }
@@ -256,7 +263,10 @@ public class DataBase {
             }
             fis.close();
             return locationRecordsList;
-        } catch (Exception e) {
+        } catch (FileNotFoundException fnfe) {
+            //Nothing to do... File just have benn not created yet
+        }
+        catch (Exception e) {
             e.printStackTrace();
         }
         return locationRecordsList;
@@ -294,9 +304,9 @@ public class DataBase {
         file.delete();
     }
 
-    public void storeLocationData(Context context, DeviceInfo deviceInfo){
+    public void storeLocationData(Context context, DeviceInfo deviceInfo, Location location){
         try {
-            LocationRecord locationRecord = new LocationRecord(deviceInfo);
+            LocationRecord locationRecord = new LocationRecord(deviceInfo, location);
             locationRecord.save(context);
         }catch (Exception e){
             e.printStackTrace();

@@ -3,6 +3,7 @@ package telefonica.tiws.grtu.apothem;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -37,16 +38,33 @@ public class AlarmService extends Service {
             this.isRunning = true;
             this.backgroundThread.start();
         }
+        locationClick();
         return START_STICKY;
     }
+
+    static LocationTracker myLocation = new LocationTracker();
 
     private Runnable myTask = new Runnable() {
         public void run() {
         // Do something here
-        DataBase dataBase = new DataBase();
-        dataBase.storeLocationData(context, deviceInfo);
         Log.d("Alarm scheduled", "Doing things...");
         stopSelf();
+        }
+
+
+
+    };
+    private void locationClick() {
+        myLocation.getLocation(context, locationResult);
+    }
+
+    public LocationTracker.LocationResult locationResult = new LocationTracker.LocationResult() {
+
+        @Override
+        public void gotLocation(final Location location) {
+            //Got the location!
+            DataBase dataBase = new DataBase();
+            dataBase.storeLocationData(context, deviceInfo, location);
         }
     };
 }

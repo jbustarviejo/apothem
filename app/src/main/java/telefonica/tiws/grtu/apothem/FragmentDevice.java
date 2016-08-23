@@ -3,6 +3,7 @@ package telefonica.tiws.grtu.apothem;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ public class FragmentDevice extends Fragment {
     static boolean initTimer=false;
     static DeviceInfo deviceInfo;
     static final Handler handler = new Handler();
+    static final int TIME_TO_RELOAD=60*1000;
 
     //TextViews
     static TextView textViewManufacturer;
@@ -48,7 +50,7 @@ public class FragmentDevice extends Fragment {
                 @Override
                 public void run() {
                     refreshTextViews();
-                    handler.postDelayed(this, 3000);
+                    handler.postDelayed(this, TIME_TO_RELOAD);
                 }
             });
         }
@@ -88,8 +90,53 @@ public class FragmentDevice extends Fragment {
         textViewOSVersion.setText(deviceInfo.getOsVersion());
         textViewBattery.setText(deviceInfo.getBatteryLevel());
 
-        textViewLatitude.setText(deviceInfo.getLatitudeString());
-        textViewLongitude.setText(deviceInfo.getLongitudeString());
-        textViewAccuracy.setText(deviceInfo.getAccuracy());
+        textViewLatitude.setText(latitudeS);
+        textViewLongitude.setText(longitudeS);
+        textViewAccuracy.setText(accuracyS);
+        locationClick();
     }
+
+    static double latitude=0;
+    static String latitudeS;
+    static double longitude=0;
+    static String longitudeS;
+    static double accuracy=0;
+    static String accuracyS;
+    static LocationTracker myLocation = new LocationTracker();
+
+    private void locationClick() {
+        if(!myLocation.getLocation(getActivity(), locationResult)){
+            longitudeS=getActivity().getResources().getString(R.string.empty);
+            latitudeS=getActivity().getResources().getString(R.string.empty);
+            accuracyS="0 m";
+        }
+    }
+
+    public LocationTracker.LocationResult locationResult = new LocationTracker.LocationResult() {
+
+        @Override
+        public void gotLocation(final Location location) {
+            //Got the location!
+            try {
+                longitude = location.getLongitude();
+                if (longitude == 0) {
+                    longitudeS = "---";
+                } else {
+                    longitudeS = longitude + "";
+                }
+                latitude = location.getLatitude();
+                if (latitude == 0) {
+                    latitudeS = "---";
+                } else {
+                    latitudeS = latitude + "";
+                }
+                accuracy = location.getAccuracy();
+                accuracyS = Math.round(accuracy) + " m";
+            }catch (Exception e){
+                longitudeS="---";
+                latitudeS="---";
+                accuracyS="0 m";
+            }
+        }
+    };
 }

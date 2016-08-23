@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
+import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -55,11 +56,9 @@ public class DeviceInfo {
     private static TelephonyManager telephonyManager;
     private static WifiManager wifiManager;
     private static ConnectivityManager connectivityManager;
-    private static GPSTracker gpsTracker;
 
     DeviceInfo(Context context){
         this.context = context;
-        gpsTracker = new GPSTracker(context);
         telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
         connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -348,28 +347,6 @@ public class DeviceInfo {
         } catch (Exception e) {
             return context.getResources().getString(R.string.not_allowed);
         }
-    }
-
-    /* LOCATION */
-
-    public String getLatitudeString(){
-        return gpsTracker.getLatitudeToString();
-    }
-
-    public double getLatitude(){
-        return gpsTracker.getLatitude();
-    }
-
-    public String getLongitudeString(){
-        return gpsTracker.getLongitudeToString();
-    }
-
-    public double getLongitude(){
-        return gpsTracker.getLongitude();
-    }
-
-    public String getAccuracy(){
-        return gpsTracker.getAccuracy();
     }
 
     /*CONNECTION INFO*/

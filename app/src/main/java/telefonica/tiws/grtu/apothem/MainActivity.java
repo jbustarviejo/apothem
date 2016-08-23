@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if(alarmRunning == false) {
             PendingIntent pendingIntent = PendingIntent.getBroadcast(thisActivity, 0, alarm, 0);
             AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-            alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(), 5*60*1000, pendingIntent);
+            alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(), 1*60*1000, pendingIntent);
         }
     }
 
