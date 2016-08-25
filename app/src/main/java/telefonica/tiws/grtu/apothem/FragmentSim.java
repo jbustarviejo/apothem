@@ -1,14 +1,19 @@
 package telefonica.tiws.grtu.apothem;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import java.util.List;
 
 public class FragmentSim extends Fragment {
 
@@ -30,6 +35,9 @@ public class FragmentSim extends Fragment {
     TextView textViewVoiceName;
     TextView textViewVoiceNumber;
 
+    Activity thisActivity;
+    LinearLayout layoutApns;
+
 
     public static FragmentSim newInstance() {
         FragmentSim fragment = new FragmentSim();
@@ -40,6 +48,7 @@ public class FragmentSim extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.content_sim, container, false);
         deviceInfo=new DeviceInfo(getActivity());
+        thisActivity = getActivity();
 
         fillViewInfo(rootView);
         if(!initTimer) {
@@ -72,6 +81,8 @@ public class FragmentSim extends Fragment {
         textViewVoiceName = (TextView) thisView.findViewById(R.id.operatorText4);
         textViewVoiceNumber = (TextView) thisView.findViewById(R.id.operatorText5);
 
+        layoutApns = (LinearLayout) thisView.findViewById(R.id.layoutApns);
+
         //Refresh values
         refreshTextViews();
     }
@@ -90,5 +101,34 @@ public class FragmentSim extends Fragment {
         textViewMNC.setText(deviceInfo.getMNC());
         textViewVoiceName.setText(deviceInfo.getVoiceMailName());
         textViewVoiceNumber.setText(deviceInfo.getVoiceMailNumber());
+
+        List<DeviceInfo.ApnAttr> apnAttrsList= deviceInfo.getSettingsFromApnsFile();
+
+        LayoutInflater li = thisActivity.getLayoutInflater();
+        layoutApns.removeAllViews();
+
+        if(apnAttrsList==null || apnAttrsList.size()==0){
+            View netWorkInfoBox = li.inflate(R.layout.fragment_apn, null);
+
+            TextView textViewTitle= (TextView) netWorkInfoBox.findViewById(R.id.apnName);
+            TextView textViewSubtitle=(TextView) netWorkInfoBox.findViewById(R.id.apnDir);
+            textViewTitle.setText("No se han detectado Apns");
+            textViewSubtitle.setText("Esta pantalla se actualizará si aparecen nuevas estaciones");
+
+            layoutApns.addView(netWorkInfoBox);
+        }else {
+            int count=1;
+            for (DeviceInfo.ApnAttr apnAttrs : apnAttrsList) {
+                View netWorkInfoBox = li.inflate(R.layout.fragment_apn, null);
+
+                TextView textViewTitle= (TextView) netWorkInfoBox.findViewById(R.id.apnName);
+                TextView textViewSubtitle=(TextView) netWorkInfoBox.findViewById(R.id.apnDir);
+                textViewTitle.setText((count++)+". "+apnAttrs.carrier+":");
+                textViewSubtitle.setText(apnAttrs.name+" ("+apnAttrs.type+")");
+
+                layoutApns.addView(netWorkInfoBox);
+            }
+        }
+
     }
 }

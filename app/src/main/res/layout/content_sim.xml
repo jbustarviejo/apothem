@@ -366,5 +366,62 @@
         </RelativeLayout>
         <!--End container-->
 
+        <!--APNs container-->
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_shadow"
+            android:paddingTop="@dimen/info_container_padding_top"
+            android:paddingLeft="@dimen/info_container_padding_left"
+            android:paddingRight="@dimen/info_container_padding_right"
+            android:paddingBottom="@dimen/info_container_padding_bottom"
+            android:layout_marginTop="@dimen/info_container_margin_top"
+            android:layout_below="@id/relativeLayoutParent2"
+            android:id="@+id/relativeLayoutParent3">
+
+            <ImageView
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:tint="@color/titleColor"
+                android:layout_marginLeft="@dimen/icon_margin_left"
+                android:layout_marginTop="@dimen/icon_margin_top"
+                android:src="@drawable/ic_dns"
+                android:id="@+id/iconApn"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/title_text_size"
+                android:textColor="@color/titleColor"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="@dimen/title_margin_left"
+                android:layout_marginTop="@dimen/title_margin_top"
+                android:text="APNs"
+                android:layout_toRightOf="@+id/iconApn"/>
+
+            <!--Info container-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/info_container_padding"
+                android:layout_below="@+id/iconApn">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@android:color/darker_gray"/>
+
+                <!--Info container-->
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/layoutApns"/>
+
+            </RelativeLayout>
+            <!--End info container-->
+        </RelativeLayout>
+        <!--End container-->
+
     </RelativeLayout>
 </ScrollView>

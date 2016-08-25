@@ -31,12 +31,17 @@ import android.telephony.CellSignalStrengthLte;
 import android.telephony.CellSignalStrengthWcdma;
 import android.telephony.NeighboringCellInfo;
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 import android.text.format.Formatter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserFactory;
+
+import java.io.FileReader;
 import java.io.InputStream;
 import java.math.BigInteger;
 import java.net.InetAddress;
@@ -49,6 +54,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
 
 public class DeviceInfo {
@@ -1198,6 +1204,66 @@ public class DeviceInfo {
             }catch (Exception e){
                 return callDuration+" segs";
             }
+        }
+    }
+
+    public List<ApnAttr> getSettingsFromApnsFile() {
+        FileReader reader = null;
+        List<ApnAttr> apnAttrsList = new ArrayList<ApnAttr>();
+
+        try {
+            reader = new FileReader("/etc/apns-conf.xml");
+
+            XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+            factory.setNamespaceAware(true);
+            XmlPullParser xpp = factory.newPullParser();
+            xpp.setInput(reader);
+
+            String simOperator = telephonyManager.getSimOperator();
+            if (simOperator.isEmpty()) {
+                return null;
+            }
+
+            int eventType = xpp.getEventType();
+            while (eventType != XmlPullParser.END_DOCUMENT) {
+                if (eventType == XmlPullParser.START_TAG && xpp.getName().equals("apn")) {
+                    HashMap<String, String> attributes = new HashMap<String, String>();
+                    for (int i=0; i<xpp.getAttributeCount(); i++) {
+                        attributes.put(xpp.getAttributeName(i), xpp.getAttributeValue(i));
+                    }
+                    try {
+                        if (attributes.containsKey("mcc") && attributes.containsKey("mnc") && simOperator.equals(attributes.get("mcc")+attributes.get("mnc"))) {
+                            ApnAttr apnAttr = new ApnAttr(attributes.get("apn"), attributes.get("type"), attributes.get("carrier"));
+                            apnAttrsList.add(apnAttr);
+                        }
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+                eventType = xpp.next();
+            }
+        } catch (Exception e) {
+            //logger.warn("unable to get mmsc config from apns-conf file", e);
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (Exception e) {
+                }
+            }
+        }
+        return apnAttrsList;
+    }
+
+    class ApnAttr{
+        String name="---";
+        String type="---";
+        String carrier="---";
+
+        public ApnAttr(String name, String type, String carrier){
+            this.name=name;
+            this.type=type;
+            this.carrier=carrier;
         }
     }
 }
