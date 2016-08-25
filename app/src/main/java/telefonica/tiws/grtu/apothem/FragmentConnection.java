@@ -31,6 +31,8 @@ public class FragmentConnection extends Fragment {
     static TextView textViewIP;
 
     static TextView textViewSSID;
+    static TextView textViewBSSID;
+    static TextView textViewEncryption;
     static TextView textViewRSSI;
     static TextView textViewLinkSpeed;
     static TextView textViewFreq;
@@ -93,9 +95,11 @@ public class FragmentConnection extends Fragment {
 
         //Wifi
         textViewSSID = (TextView) thisView.findViewById(R.id.wifiText1);
-        textViewRSSI = (TextView) thisView.findViewById(R.id.wifiText2);
-        textViewLinkSpeed = (TextView) thisView.findViewById(R.id.wifiText3);
-        textViewFreq = (TextView) thisView.findViewById(R.id.wifiText4);
+        textViewEncryption = (TextView) thisView.findViewById(R.id.wifiText2);
+        textViewBSSID = (TextView) thisView.findViewById(R.id.wifiText3);
+        textViewRSSI = (TextView) thisView.findViewById(R.id.wifiText4);
+        textViewLinkSpeed = (TextView) thisView.findViewById(R.id.wifiText5);
+        textViewFreq = (TextView) thisView.findViewById(R.id.wifiText6);
 
         wifiLayout = (RelativeLayout) thisView.findViewById(R.id.relativeLayoutParent2);
 
@@ -123,6 +127,8 @@ public class FragmentConnection extends Fragment {
         textViewIP.setText(deviceInfo.getIP());
 
         textViewSSID.setText(deviceInfo.getSSID());
+        textViewBSSID.setText(deviceInfo.getBSSID());
+        textViewEncryption.setText(deviceInfo.getNetworkEncryption());
         textViewRSSI.setText(deviceInfo.getWifiRssi());
         textViewLinkSpeed.setText(deviceInfo.getWifiLinkSpeed());
         textViewFreq.setText(deviceInfo.getWifiLinkFreq());

@@ -10,6 +10,7 @@ import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.net.wifi.ScanResult;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.BatteryManager;
@@ -559,6 +560,22 @@ public class DeviceInfo {
         }
     }
 
+    public String getBSSID() {
+        try {
+            WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+            String bssid = wifiInfo.getBSSID();
+            if (bssid.isEmpty()) {
+                bssid = context.getResources().getString(R.string.empty);
+            }
+            if (bssid == "0x" || bssid == "<unknown bssid>") {
+                return context.getResources().getString(R.string.empty);
+            }
+            return bssid;
+        } catch (Exception e) {
+            return context.getResources().getString(R.string.not_allowed);
+        }
+    }
+
     public String getWifiRssi() {
         try {
             WifiInfo wifiInfo = wifiManager.getConnectionInfo();
@@ -602,6 +619,42 @@ public class DeviceInfo {
             return context.getResources().getString(R.string.not_allowed);
         }
     }
+
+
+    public String getNetworkEncryption() {
+        try {
+            List<ScanResult> networkList = wifiManager.getScanResults();
+
+            //get current connected SSID for comparison to ScanResult
+            WifiInfo wi = wifiManager.getConnectionInfo();
+            String currentSSID = wi.getSSID();
+
+            if (networkList != null) {
+                for (ScanResult network : networkList)
+                {
+                    //check if current connected SSID
+                    if (currentSSID.equals(network.SSID) || currentSSID.equals('"'+network.SSID+'"')){
+                        //get capabilities of current connection
+                        String Capabilities =  network.capabilities;
+                        return Capabilities;
+                        /*if (Capabilities.contains("WPA2")) {
+                            //do something
+                        }
+                        else if (Capabilities.contains("WPA")) {
+                            //do something
+                        }
+                        else if (Capabilities.contains("WEP")) {
+                            //do something
+                        }*/
+                    }
+                }
+            }
+        } catch (Exception e) {
+            return context.getResources().getString(R.string.empty);
+        }
+        return context.getResources().getString(R.string.empty);
+    }
+
 
      /*STATIONS NETWORK*/
 

@@ -236,7 +236,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
-                        android:text="RSSI" />
+                        android:text="Tipo de red" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -259,7 +259,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
-                        android:text="Capacidad de red" />
+                        android:text="BSSID" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -282,7 +282,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
-                        android:text="Banda de conexión" />
+                        android:text="RSSI" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -290,6 +290,52 @@
                         android:text="@string/empty"
                         android:layout_alignParentRight="true"
                         android:id="@+id/wifiText4"/>
+                </RelativeLayout>
+
+                <!--Info element-->
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/info_element_padding"
+                    android:layout_marginTop="@dimen/info_element_margin_top"
+                    android:layout_below="@+id/relativeLayoutWifi4"
+                    android:id="@+id/relativeLayoutWifi5">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="Capacidad de red" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/empty"
+                        android:layout_alignParentRight="true"
+                        android:id="@+id/wifiText5"/>
+                </RelativeLayout>
+
+                <!--Info element-->
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/info_element_padding"
+                    android:layout_marginTop="@dimen/info_element_margin_top"
+                    android:layout_below="@+id/relativeLayoutWifi5"
+                    android:id="@+id/relativeLayoutWifi6">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="Banda de conexión" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/empty"
+                        android:layout_alignParentRight="true"
+                        android:id="@+id/wifiText6"/>
                 </RelativeLayout>
 
             </RelativeLayout>
