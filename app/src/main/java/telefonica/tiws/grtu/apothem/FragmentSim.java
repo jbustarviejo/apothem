@@ -112,8 +112,8 @@ public class FragmentSim extends Fragment {
 
             TextView textViewTitle= (TextView) netWorkInfoBox.findViewById(R.id.apnName);
             TextView textViewSubtitle=(TextView) netWorkInfoBox.findViewById(R.id.apnDir);
-            textViewTitle.setText("No se han detectado Apns");
-            textViewSubtitle.setText("Esta pantalla se actualizará si aparecen nuevas estaciones");
+            textViewTitle.setText("No se han detectado APNs");
+            textViewSubtitle.setText("Esta pantalla se actualizará se detectan nuevas APNs");
 
             layoutApns.addView(netWorkInfoBox);
         }else {
