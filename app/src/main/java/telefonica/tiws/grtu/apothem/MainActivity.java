@@ -54,16 +54,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if(dontInit){
                 return;
             }
-        }catch (Exception e){}
+        }catch (Exception ignored){}
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        assert fab != null;
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                drawFragment(R.id.nav_email);
+                Intent intent = new Intent(thisActivity, EmailActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -141,12 +143,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     public void drawFragment(int id){
-
-        if (id == R.id.nav_email) {
-            Intent intent = new Intent(thisActivity, EmailActivity.class);
-            startActivity(intent);
-            return;
-        }
 
         Fragment fragment;
 

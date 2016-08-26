@@ -331,7 +331,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
-                        android:text="Latitud" />
+                        android:text="Zona horaria" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -354,7 +354,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
-                        android:text="Longitud" />
+                        android:text="Latitud" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -377,7 +377,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
-                        android:text="Precisión" />
+                        android:text="Longitud" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -400,7 +400,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
-                        android:text="Zona horaria" />
+                        android:text="Precisión" />
 
                     <TextView
                         android:layout_width="wrap_content"

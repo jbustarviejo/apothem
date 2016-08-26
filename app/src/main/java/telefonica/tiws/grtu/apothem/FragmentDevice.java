@@ -72,10 +72,10 @@ public class FragmentDevice extends Fragment {
         textViewBattery = (TextView) thisView.findViewById(R.id.systemText2);
 
         //Location
-        textViewLatitude = (TextView) thisView.findViewById(R.id.locationText1);
-        textViewLongitude = (TextView) thisView.findViewById(R.id.locationText2);
-        textViewAccuracy = (TextView) thisView.findViewById(R.id.locationText3);
-        textViewTimeZone = (TextView) thisView.findViewById(R.id.locationText4);
+        textViewTimeZone = (TextView) thisView.findViewById(R.id.locationText1);
+        textViewLatitude = (TextView) thisView.findViewById(R.id.locationText2);
+        textViewLongitude = (TextView) thisView.findViewById(R.id.locationText3);
+        textViewAccuracy = (TextView) thisView.findViewById(R.id.locationText4);
 
         //Refresh values
         refreshTextViews();
