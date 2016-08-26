@@ -1,12 +1,10 @@
 package telefonica.tiws.grtu.apothem;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
-import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -31,31 +29,27 @@ import android.telephony.CellSignalStrengthLte;
 import android.telephony.CellSignalStrengthWcdma;
 import android.telephony.NeighboringCellInfo;
 import android.telephony.TelephonyManager;
-import android.text.TextUtils;
 import android.text.format.Formatter;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.TextView;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.FileReader;
-import java.io.InputStream;
 import java.math.BigInteger;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
-import java.net.URL;
-import java.net.URLConnection;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
 public class DeviceInfo {
 
@@ -353,6 +347,16 @@ public class DeviceInfo {
             return Math.round(((float) level / (float) scale) * 100f) + "%";
         } catch (Exception e) {
             return context.getResources().getString(R.string.not_allowed);
+        }
+    }
+
+    public String getTimeZone(){
+        try {
+            Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT"), Locale.getDefault());
+            String   timeZone = new SimpleDateFormat("Z").format(calendar.getTime());
+            return timeZone.substring(0, 3) + ":"+ timeZone.substring(3, 5)+" hrs";
+        }catch (Exception e) {
+            return context.getResources().getString(R.string.empty);
         }
     }
 

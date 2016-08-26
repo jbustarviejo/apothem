@@ -31,6 +31,7 @@ public class FragmentDevice extends Fragment {
     static TextView textViewLatitude;
     static TextView textViewLongitude;
     static TextView textViewAccuracy;
+    static TextView textViewTimeZone;
 
 
     public static FragmentDevice newInstance() {
@@ -74,6 +75,7 @@ public class FragmentDevice extends Fragment {
         textViewLatitude = (TextView) thisView.findViewById(R.id.locationText1);
         textViewLongitude = (TextView) thisView.findViewById(R.id.locationText2);
         textViewAccuracy = (TextView) thisView.findViewById(R.id.locationText3);
+        textViewTimeZone = (TextView) thisView.findViewById(R.id.locationText4);
 
         //Refresh values
         refreshTextViews();
@@ -94,6 +96,7 @@ public class FragmentDevice extends Fragment {
         textViewLongitude.setText(longitudeS);
         textViewAccuracy.setText(accuracyS);
         locationClick();
+        textViewTimeZone.setText(deviceInfo.getTimeZone());
     }
 
     static double latitude=0;

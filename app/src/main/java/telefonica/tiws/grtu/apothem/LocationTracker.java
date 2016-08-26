@@ -2,11 +2,13 @@ package telefonica.tiws.grtu.apothem;
 
 import java.util.Timer;
 import java.util.TimerTask;
+
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
@@ -110,12 +112,20 @@ public class LocationTracker {
                 //noinspection MissingPermission
                 net_loc=lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
-            if (gps_enabled)
-                //noinspection MissingPermission
-                lm.requestSingleUpdate(LocationManager.GPS_PROVIDER, locationListenerGps, Looper.myLooper());
-            if (network_enabled)
-                //noinspection MissingPermission
-                lm.requestSingleUpdate(LocationManager.NETWORK_PROVIDER, locationListenerNetwork, Looper.myLooper());
+            Handler h = new Handler(Looper.getMainLooper());
+            h.post(new Runnable() {
+                //Update location for nextTime
+                public void run() {
+                    if (network_enabled){
+                        //noinspection MissingPermission
+                        lm.requestSingleUpdate(LocationManager.NETWORK_PROVIDER, locationListenerNetwork, Looper.myLooper());
+                    }else if (gps_enabled){
+                        //noinspection MissingPermission
+                        lm.requestSingleUpdate(LocationManager.GPS_PROVIDER, locationListenerGps, Looper.myLooper());
+                    }
+                    cancel();
+                }
+            });
 
             //if there are both values use the latest one
             if(gps_loc!=null && net_loc!=null){
