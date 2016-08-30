@@ -98,7 +98,7 @@ public class LocationTracker {
         }
         @Override
         public void run() {
-            Log.d("Timer","GPS Schedulled!");
+            //Log.d("Timer","GPS Schedulled!");
             //noinspection MissingPermission
             lm.removeUpdates(locationListenerGps);
             //noinspection MissingPermission
