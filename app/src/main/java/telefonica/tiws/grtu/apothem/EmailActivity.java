@@ -46,11 +46,13 @@ public class EmailActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         ScrollView contentFile = (ScrollView) findViewById(R.id.contentFile);
+        assert contentFile != null;
         contentFile.setAlpha(0);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Button sendButton = (Button) findViewById(R.id.sendEmailButton);
+        assert sendButton != null;
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -93,16 +95,19 @@ public class EmailActivity extends AppCompatActivity {
         });
 
         TextView positionRecords = (TextView) findViewById(R.id.positionRecords);
+        assert positionRecords != null;
         positionRecords.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ScrollView contentFile = (ScrollView) findViewById(R.id.contentFile);
                 if(isOpenFileContentLocations){
                     isOpenFileContentLocations=false;
+                    assert contentFile != null;
                     contentFile.setAlpha(0);
                     return;
                 }
                 isOpenFileContentLocations=true;
+                assert contentFile != null;
                 contentFile.setAlpha(1);
 
                 TextView fileContent = (TextView) findViewById(R.id.fileContent);
@@ -111,9 +116,10 @@ public class EmailActivity extends AppCompatActivity {
                 List<DataBase.LocationRecord> locationRecordList = dataBase.getPositionsHistory(thisActivity,false);
                 String file="";
                 for(int i=0;i<locationRecordList.size();i++){
-                    file+=locationRecordList.get(i).toJSON();
+                    file+=locationRecordList.get(i).toJSON()+"\n";
                 }
 
+                assert fileContent != null;
                 fileContent.setText(file);
             }
         });

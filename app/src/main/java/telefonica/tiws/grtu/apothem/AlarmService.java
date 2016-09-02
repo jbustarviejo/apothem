@@ -10,58 +10,25 @@ import android.util.Log;
 
 public class AlarmService extends Service {
 
-  //  private boolean isRunning;
-    private Context context;
-  //  Thread backgroundThread;
-    DeviceInfo deviceInfo;
-    static LocationTracker myLocation =null;
+    AlarmReceiver alarmReceiver = new AlarmReceiver();
 
     @Override
     public IBinder onBind(Intent intent) {
         return null;
     }
 
-    @Override
-    public void onCreate() {
-        this.context = this;
-        //this.isRunning = false;
-        //this.backgroundThread = new Thread(myTask);
-        deviceInfo=new DeviceInfo(context);
-        if(myLocation==null) {
-            myLocation = new LocationTracker();
-        }
-    }
-
-    @Override
-    public void onDestroy() {
-       // this.isRunning = false;
+    public void onCreate(){
+        super.onCreate();
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        /*if(!this.isRunning) {
-            this.isRunning = true;
-            this.backgroundThread.start();
-        }*/
-        myLocation.getLocation(context, locationResult);
+        alarmReceiver.setAlarm(this);
         return START_STICKY;
     }
 
-    /*private Runnable myTask = new Runnable() {
-        public void run() {
-        // Do something here
-        Log.d("Alarm scheduled", "Doing things...");
-        stopSelf();
-        }
-    };*/
-
-    public LocationTracker.LocationResult locationResult = new LocationTracker.LocationResult() {
-
-        @Override
-        public void gotLocation(final Location location) {
-            //Got the location!
-            DataBase dataBase = new DataBase();
-            dataBase.storeLocationData(context, deviceInfo, location);
-        }
-    };
+    @Override
+    public void onStart(Intent intent, int startId) {
+        alarmReceiver.setAlarm(this);
+    }
 }

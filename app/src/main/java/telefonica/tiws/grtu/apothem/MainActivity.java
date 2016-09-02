@@ -90,14 +90,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void startBackgroundService(){
-        //Do this every 5 minutes
-        Intent alarm = new Intent(thisActivity, AlarmReceiver.class);
-        boolean alarmRunning = (PendingIntent.getBroadcast(thisActivity, 0, alarm, PendingIntent.FLAG_NO_CREATE) != null);
-        if(alarmRunning == false) {
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(thisActivity, 0, alarm, 0);
-            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-            alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, 1000, 5*60*1000, pendingIntent);
-        }
+        AlarmReceiver alarmReceiver = new AlarmReceiver();
+        alarmReceiver.setAlarm(thisActivity);
     }
 
     @Override
