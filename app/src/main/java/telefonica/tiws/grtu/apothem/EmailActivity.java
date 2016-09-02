@@ -116,7 +116,7 @@ public class EmailActivity extends AppCompatActivity {
                 List<DataBase.LocationRecord> locationRecordList = dataBase.getPositionsHistory(thisActivity,false);
                 String file="";
                 for(int i=0;i<locationRecordList.size();i++){
-                    file+=locationRecordList.get(i).toJSON()+"\n";
+                    file+=locationRecordList.get(i).toString()+"\n";
                 }
 
                 assert fileContent != null;

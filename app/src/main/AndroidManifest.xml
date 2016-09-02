@@ -47,7 +47,7 @@
             android:configChanges="orientation|keyboardHidden"/>
 
         <!--Services and receivers-->
-        <service android:name=".AlarmService" />
+        <service android:name=".AlarmService" android:enabled="true" android:process=":AlarmService" />
 
         <receiver android:process=":remote" android:name=".AlarmReceiver" />
 

@@ -76,6 +76,15 @@ public class DataBase {
             }
         }
 
+        public String toString(){
+            String locationRecordString;
+            locationRecordString="Date: "+date;
+            locationRecordString+=". Latitude: "+latitude;
+            locationRecordString+=". Longitude: "+longitude;
+            locationRecordString+=". StationInfo: "+stationInfo.toJSON();
+            return locationRecordString;
+        }
+
         public void save(Context context){
 
             List<LocationRecord> locationRecordList = getPositionsHistory(context, false);
